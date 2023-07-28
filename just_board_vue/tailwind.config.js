@@ -8,7 +8,9 @@ export default {
     extend: {
       backgroundImage: {
        'create-logo':"url('./src/assets/icon/create.svg')",
-       'search-logo':"url('./src/assets/icon/search.svg')"
+       'search-logo':"url('./src/assets/icon/search.svg')",
+       'heart-logo':"url('./src/assets/icon/heart.svg')",
+       'heart-black-logo':"url('./src/assets/icon/heartBlack.svg')",
       }
     },
   },
