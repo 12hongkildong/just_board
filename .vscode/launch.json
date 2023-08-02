@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-JustBoardApplication<just_board>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.just_board.just_board.JustBoardApplication",
+            "projectName": "just_board",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
