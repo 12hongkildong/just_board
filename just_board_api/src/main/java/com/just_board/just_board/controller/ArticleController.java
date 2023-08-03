@@ -6,34 +6,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.just_board.just_board.entity.Article;
-import com.just_board.just_board.repository.ArticleRepository;
-import com.just_board.just_board.service.ArticleService;
+import com.just_board.just_board.entity.Article2;
+import com.just_board.just_board.repository.Article2Repository;
+import com.just_board.just_board.service.ArticleService2;
 
 @RestController
-public class BoardController {
+public class ArticleController {
     
     @Autowired
-    private ArticleService service;
+    private ArticleService2 service;
 
     @Autowired
-    private ArticleRepository repository;
+    private Article2Repository repository;
 
 
-    @GetMapping("listall")
-    public List<Article> listAll(){
-        System.out.println("아따따뚜겐");
+    @GetMapping("listall3")
+    public List<Article2> listAll(){
+        System.out.println("int4 / int8 / bigserial을 잘 불러오는 지 테스트");
         System.out.println();
         System.out.println();
         return service.getByListAll();
         // return service.getByListAllDesc(0,20);
     }
 
-    @GetMapping("any")
+    @GetMapping("any3")
     public String any(){
         System.out.println("아무아무");
         // System.out.println(repository.findAll());
-        return "아무거나 말해줘";
+        return "아무거나 말해줘2";
     }
 
 
