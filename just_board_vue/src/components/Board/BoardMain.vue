@@ -65,17 +65,10 @@
 
 <script setup>
 import {ref, reactive,onMounted, onUpdated } from 'vue';
+import dayjs from 'dayjs'
 
 let page = ref(0);
-let subject = ref([]);
-let content = ref([]);
-let data = reactive({});
-
-
-let title = ref("하나면 하나지 둘이겠느냐? 둘이면 둘이지 셋은...");
-let name = ref("술취한호랑이");
-let like = ref("9");
-let date = ref("2023.07.24.");
+let data = ref();
 
 function scrollToTop(){  // 스크롤을 맨 위로 올리는 함수
     window.scrollTo(0, 0)
@@ -90,32 +83,14 @@ onMounted(() => {
     fetch(`http://localhost:8080/board/PaginatedBoard?page=${page.value}`, requestOptions)
         .then(response => response.json())
         .then(result => {
-            subject.value=result;
-            content=result;
-            data=result;
-            // console.log(result)
-            // console.log(content)
-            // console.log(content[0])
-            // console.log(result[0])
-            // console.log(subject.value)
-            // console.log(data)
+            data.value=result;
+
+            let postDay = dayjs(data.value[0].date,"YYYY-MM-DD HH:mm:ss");
+
+            console.log(postDay.format("YY/MM/DD"))
         })
         .catch(error => console.log('error', error));
-        console.log("서브젝트")
-        console.log(subject.value)
-        console.log(subject)
-        
-        console.log("콘텐츠")
-        console.log(content.value)
-        console.log(content)
-
-        console.log("데어터")
-        console.log(data);
-        
-        // console.log(subject.this._rawValue)
-        // console.log(content.value)
 })
-
 </script>
 <style scoped>
     
