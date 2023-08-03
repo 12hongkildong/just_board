@@ -13,15 +13,27 @@
                 <div>추천수</div>
                 <div>날짜</div>
             </section>
-            <section v-for="i in 20" class="grid grid-cols-[38rem_13rem_6.625rem_9rem] text-2xl h-[3.75rem] justify-items-center content-center hover:bg-gray-100 ">  <!-- v-for하기 위한 목록 리스트 -->
+
+            <!-- v-for하기 위한 목록 리스트 -->
+            <!-- <section v-for="i in 20" class="grid grid-cols-[38rem_13rem_6.625rem_9rem] text-2xl h-[3.75rem] justify-items-center content-center hover:bg-gray-100 ">  
                 <h1 class="hidden">리스트</h1>
                 <router-link to="/1" class="cursor-pointer hover:text-blue-400" @click="scrollToTop">{{ title }}</router-link>
-                <!-- <div class="cursor-pointer hover:text-blue-400">{{ title }}</div> -->
                 <div>{{ name }}</div>
                 <div>{{ like }}</div>
                 <div>{{ date }}</div>
+            </section> -->
+
+            <!-- v-for하기 위한 목록 리스트 -->
+            <section v-for="(list, i) in data" :key="i" class="grid grid-cols-[38rem_13rem_6.625rem_9rem] text-2xl h-[3.75rem] justify-items-center content-center hover:bg-gray-100 ">
+                <h1 class="hidden">리스트</h1>
+                <router-link to="/1" class="cursor-pointer hover:text-blue-400" @click="scrollToTop">{{ data[i].subject }}</router-link>
+                <div>{{ data[i].content }}</div>
+                <div>{{ data[i].like }}</div>
+                <div>{{ data[i].date }}</div>
             </section>
 
+
+            
             <section class="grid justify-items-end font-bold m-4"> <!-- 글쓰기 버튼 -->
                 <router-link to="/write" class="text-2xl grid grid-cols-[1.5rem_1fr]"><div class="bg-create-logo h-6 w-6"></div>글쓰기</router-link>
             </section>
@@ -37,7 +49,7 @@
                     </a>
                     <!-- Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" -->
                     <a href="#" aria-current="page" class="relative z-10 inline-flex items-center bg-[#35469C] px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">1</a>
-                    <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0" v-for="i in 9">{{ igit config --list + 1 }}</a>
+                    <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0" v-for="i in 9">{{ i+1 }}</a>
                     <a href="#" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
                     <span class="sr-only">Next</span>
                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -52,7 +64,12 @@
 
 
 <script setup>
-import {ref} from 'vue';
+import {ref, reactive,onMounted, onUpdated } from 'vue';
+
+let page = ref(0);
+let subject = ref([]);
+let content = ref([]);
+let data = reactive({});
 
 
 let title = ref("하나면 하나지 둘이겠느냐? 둘이면 둘이지 셋은...");
@@ -64,7 +81,40 @@ function scrollToTop(){  // 스크롤을 맨 위로 올리는 함수
     window.scrollTo(0, 0)
 }
 
+onMounted(() => {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
 
+    fetch(`http://localhost:8080/board/PaginatedBoard?page=${page.value}`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            subject.value=result;
+            content=result;
+            data=result;
+            // console.log(result)
+            // console.log(content)
+            // console.log(content[0])
+            // console.log(result[0])
+            // console.log(subject.value)
+            // console.log(data)
+        })
+        .catch(error => console.log('error', error));
+        console.log("서브젝트")
+        console.log(subject.value)
+        console.log(subject)
+        
+        console.log("콘텐츠")
+        console.log(content.value)
+        console.log(content)
+
+        console.log("데어터")
+        console.log(data);
+        
+        // console.log(subject.this._rawValue)
+        // console.log(content.value)
+})
 
 </script>
 <style scoped>
