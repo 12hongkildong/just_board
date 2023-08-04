@@ -1,5 +1,6 @@
 package com.just_board.just_board.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,23 @@ public class ArticleController {
 
 
     // 페이지네이션
+        // 총 페이지
+        // 10개 넘기기 몇 번 하는 지
+    @GetMapping("countPage")
+    public int countPage(){
+        
+
+        // 총페이지 = 모든 게시글 가지고 온 뒤 나누기 5해서 계산(참고로 무조건 올림처리)
+
+        service.getTotalPages();
+        System.out.println(service.getTotalPages());
+        // page.add(service.getArticleCounts());
+        // 10번 넘기기 = 
+
+        return service.getTotalPages();
+    }
+
+
 
     // 좋아요
 
