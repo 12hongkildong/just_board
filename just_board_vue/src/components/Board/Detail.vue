@@ -15,7 +15,7 @@
             <section>
                 <h1 class="hidden">본문</h1>
                 <div class="m-12">
-                    이상 본문의 내용은 이런 글이 있을 예쩡입니다.
+                    {{data}} 이상 본문의 내용은 이런 글이 있을 예쩡입니다.
                     아님 말고~
                 </div>
             </section>
@@ -54,17 +54,23 @@
                     <button class="h-[3rem] w-[4rem] bg-[#35469C] text-white text-2xl rounded-xl mt-5 ">등록</button>
                 </section>
             </section>
-
         </section>
-
-
     </section>
 
-    <BoardMain></BoardMain>
 </template>
 <script setup>
-import BoardMain from './BoardMain.vue';
-import { ref } from 'vue'
+import { ref, defineProps, onUpdated } from 'vue'
+
+// props로 데이터 받아오기
+const props = defineProps({
+    propp:{
+        type:Array,
+    }
+});
+
+console.log(props)
+
+let data = ref(props.propp)
 
 let comment = ref(false);
 
