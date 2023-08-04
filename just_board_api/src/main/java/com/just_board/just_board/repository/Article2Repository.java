@@ -11,4 +11,5 @@ import com.just_board.just_board.entity.Article2;
 public interface Article2Repository extends JpaRepository<Article2,Long>{
     
     Page<Article2> findAll(Pageable pageable);
+    int countBy();
 }
