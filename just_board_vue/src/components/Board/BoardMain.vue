@@ -16,20 +16,10 @@
             </section>
 
             <!-- v-for하기 위한 목록 리스트 -->
-            <!-- <section v-for="i in 20" class="grid grid-cols-[38rem_13rem_6.625rem_9rem] text-2xl h-[3.75rem] justify-items-center content-center hover:bg-gray-100 ">  
-                <h1 class="hidden">리스트</h1>
-                <router-link to="/1" class="cursor-pointer hover:text-blue-400" @click="scrollToTop">{{ title }}</router-link>
-                <div>{{ name }}</div>
-                <div>{{ like }}</div>
-                <div>{{ date }}</div>
-            </section> -->
-
-            <!-- v-for하기 위한 목록 리스트 -->
             <section v-for="(list, i) in data" :key="i" class="grid grid-cols-[38rem_13rem_6.625rem_9rem] text-2xl h-[3.75rem] justify-items-center content-center hover:bg-gray-100 ">
                 <h1 class="hidden">리스트</h1>
-                <!-- <router-link to="/1" class="cursor-pointer hover:text-blue-400" @click="scrollToTop">{{ data[i].subject }}</router-link> -->
                 <router-link :to="{name : 'detail', params: {id: data[i].id}}" class="cursor-pointer hover:text-blue-400" @click="scrollToTop">{{ data[i].subject }}</router-link>
-                <div>{{ data[i].content }}</div>
+                <div>{{ data[i].memberId.name }}</div>
                 <div>{{ data[i].like }}</div>
                 <div>{{ formatDate(data[i].date) }}</div>
             </section>
@@ -71,10 +61,8 @@ import dayjs from 'dayjs'
 let page = ref(0);
 let data = ref("");
 
-let propTest = ref("시발아")
-
-function scrollToTop(){  // 스크롤을 맨 위로 올리는 함수
-    // window.scrollTo(0, 0)
+function scrollToTop(){  // 스크롤을 맨 위로 올리는 함수, 필요 없는 줄 알았는데 디테일페이지에서 쓸모가 있어서 놔둠
+    window.scrollTo(0, 0)
 }
 
 onMounted(() => { // 데이터 값 받아오기

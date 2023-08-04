@@ -34,13 +34,6 @@ const router = createRouter({
         },
       ]
     },
-    // {
-    //   path: '/board/:id', 
-    //   component:Detail,
-    //   name:'detail',
-    //   props: true,
-    // },
-
     {
       path: '/write',
       name: 'write',
@@ -51,11 +44,6 @@ const router = createRouter({
       name: 'signup',
       component: Signup
     },
-    // {
-    //   path: '/1',
-    //   name: 'detail',
-    //   component: Detail
-    // },
   ]
 })
 
