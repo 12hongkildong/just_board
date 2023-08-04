@@ -36,6 +36,4 @@ public class Article2 {
     private Date date;
     private int hit;
     private int like;
-
-
 }
