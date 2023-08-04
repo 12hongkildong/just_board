@@ -9,6 +9,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -29,10 +31,11 @@ public class Article2 {
     private Long id;
     private String subject;
     private String content;
-    @Column(name = "member_id")
-    private int memberId;
-    // @Temporal(TemporalType.TIMESTAMP)
-    // @DateTimeFormat(pattern = "yy.MM.dd")
+    @ManyToOne
+    // @Column(name = "member_id")
+    @JoinColumn(name="member_id")
+    private Member memberId;
+    // private int memberId;
     private Date date;
     private int hit;
     private int like;
