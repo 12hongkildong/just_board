@@ -25,7 +25,22 @@ const router = createRouter({
       path: '/board',
       name: 'board',
       component: Board,
+      children:[
+        {
+          path: ':id', 
+          component:Detail,
+          name:'detail',
+          props: true,
+        },
+      ]
     },
+    // {
+    //   path: '/board/:id', 
+    //   component:Detail,
+    //   name:'detail',
+    //   props: true,
+    // },
+
     {
       path: '/write',
       name: 'write',
@@ -36,11 +51,11 @@ const router = createRouter({
       name: 'signup',
       component: Signup
     },
-    {
-      path: '/1',
-      name: 'detail',
-      component: Detail
-    },
+    // {
+    //   path: '/1',
+    //   name: 'detail',
+    //   component: Detail
+    // },
   ]
 })
 

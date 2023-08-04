@@ -1,10 +1,11 @@
 <template>
-    <router-view></router-view>
+
+    <router-view :propp="data"></router-view>
     <section class="grid grid-cols-[minmax(26.75rem,_1fr)_66.5rem_minmax(26.75rem,_1fr)] mt-[5.625rem]"> <!-- 가장 겉 그리드 -->
         <section class="col-start-2">
             <section> <!-- 검색하기 모달 -->
-                <button class="cursor-pointer text-xl grid grid-cols-[1.5rem_1fr] mb-5">
-                    <div class="bg-search-logo h-6 w-6"></div>검색
+                <button class="cursor-pointer text-xl grid grid-cols-[1.5rem_1fr] mb-5" @click="openModal">
+                    <div class="bg-search-logo h-6 w-6" ></div>검색
                 </button>
             </section>
             <section class="grid grid-cols-[38rem_13rem_6.625rem_9rem] text-2xl h-[4.375rem] bg-[#D9D9D9] justify-items-center content-center">  <!-- 릴레이션 스키마 -->
@@ -26,14 +27,13 @@
             <!-- v-for하기 위한 목록 리스트 -->
             <section v-for="(list, i) in data" :key="i" class="grid grid-cols-[38rem_13rem_6.625rem_9rem] text-2xl h-[3.75rem] justify-items-center content-center hover:bg-gray-100 ">
                 <h1 class="hidden">리스트</h1>
-                <router-link to="/1" class="cursor-pointer hover:text-blue-400" @click="scrollToTop">{{ data[i].subject }}</router-link>
+                <!-- <router-link to="/1" class="cursor-pointer hover:text-blue-400" @click="scrollToTop">{{ data[i].subject }}</router-link> -->
+                <router-link :to="{name : 'detail', params: {id: data[i].id}}" class="cursor-pointer hover:text-blue-400" @click="scrollToTop">{{ data[i].subject }}</router-link>
                 <div>{{ data[i].content }}</div>
                 <div>{{ data[i].like }}</div>
-                <div>{{ data[i].date }}</div>
+                <div>{{ formatDate(data[i].date) }}</div>
             </section>
 
-
-            
             <section class="grid justify-items-end font-bold m-4"> <!-- 글쓰기 버튼 -->
                 <router-link to="/write" class="text-2xl grid grid-cols-[1.5rem_1fr]"><div class="bg-create-logo h-6 w-6"></div>글쓰기</router-link>
             </section>
@@ -64,17 +64,20 @@
 
 
 <script setup>
-import {ref, reactive,onMounted, onUpdated } from 'vue';
+import {ref, reactive,onMounted } from 'vue';
 import dayjs from 'dayjs'
 
+
 let page = ref(0);
-let data = ref();
+let data = ref("");
+
+let propTest = ref("시발아")
 
 function scrollToTop(){  // 스크롤을 맨 위로 올리는 함수
-    window.scrollTo(0, 0)
+    // window.scrollTo(0, 0)
 }
 
-onMounted(() => {
+onMounted(() => { // 데이터 값 받아오기
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
@@ -84,13 +87,21 @@ onMounted(() => {
         .then(response => response.json())
         .then(result => {
             data.value=result;
-
-            let postDay = dayjs(data.value[0].date,"YYYY-MM-DD HH:mm:ss");
-
-            console.log(postDay.format("YY/MM/DD"))
+            // console.log(result);
         })
         .catch(error => console.log('error', error));
 })
+
+function formatDate(dateString){ //날짜 데이터가 timestamp 형태인 것을 내가 원하는 형태로 바꾸기 위한 함수
+    const formattedDate = dayjs(dateString, "YYYY-MM-DD HH:mm:ss").format("YY/MM/DD");
+    return formattedDate;
+}
+
+function openModal(){ // 검색창 만들기
+    alert("오픈모달");
+    // 검색창과 관련된 모달 창 끼워 넣고 slot으로 내용 만들기?
+}
+
 </script>
 <style scoped>
     
