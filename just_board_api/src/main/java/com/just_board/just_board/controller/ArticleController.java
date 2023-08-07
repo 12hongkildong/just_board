@@ -76,4 +76,12 @@ public class ArticleController {
     // 조회수 증가
 
 
+    // 제목+내용 검색
+    @GetMapping(value="search")
+    public List<Article2> serchArticle2s(@RequestParam String param) {
+        // service.getListBySearchKeyword();
+        return service.getListBySearchKeyword();
+    }
+    
+
 }

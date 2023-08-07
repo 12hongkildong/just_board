@@ -21,12 +21,16 @@ public class DefaultArticleService2 implements ArticleService2 {
        return repository.findAll();
     }
 
+
+    // 게시글을 다섯 개로 잘라 가지고 오기? 
     @Override
     public List<Article2> getByListPerPage(Pageable pageable) {
         // TODO Auto-generated method stub
         return repository.findAll(pageable).getContent();
     }
 
+
+    // 전체 게시글 페이지 수
     @Override
     public int getTotalPages() {
         int totalArticles = repository.countBy(); // 총 게시글 개수
@@ -34,6 +38,14 @@ public class DefaultArticleService2 implements ArticleService2 {
         System.out.println(pageCount);
 
         return pageCount;
+    }
+
+
+    // 검색을 이용한 조회
+    @Override
+    public List<Article2> getListBySearchKeyword() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getListBySearchKeyword'");
     }
     
 }
