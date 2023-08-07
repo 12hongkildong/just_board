@@ -49,7 +49,7 @@ let page = ref(0);
 let data = ref("");
 
 function scrollToTop(){  // 스크롤을 맨 위로 올리는 함수, 필요 없는 줄 알았는데 디테일페이지에서 쓸모가 있어서 놔둠
-    // window.scrollTo(0, 0)
+    window.scrollTo(0, 0)
 }
 
 

@@ -7,9 +7,14 @@
                         </svg>
                     </a>
                     <a href="#"  class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300  focus:z-20 focus:outline-offset-0" :class="i+endPage===currentPage? 'bg-[#35469C] text-white':'hover:bg-gray-400'"
-                     v-for="i in checkLastPageAboveTen.value > 1 ? 10+endPage<lastPage?10:lastPage-9 : lastPage" @click="changePage(i+endPage)">{{ i+endPage}}</a>
-                     <!-- v-for="i in checkLastPageAboveTen.value > 1 ? 10+endPage<lastPage?10:lastPage-9 : lastPage" @click="changePage(i+endPage>lastPage+1?lastPage+1:i+endPage)">{{ i+endPage}}</a> -->
-                     <!-- v-for="i in checkLastPageAboveTen.value > 1 ? 10+endPage<lastPage?10:lastPage-9 : lastPage" @click="changePage(i+endPage>lastPage+1?lastPage+1:i+endPage)">{{ i+endPage>lastPage+1?lastPage+1:i+endPage }}</a> -->
+                    v-for="i in checkLastPageAboveTen.value > 1 ? 10+endPage<lastPage?10:lastPage-9 : lastPage" @click="changePage(i+endPage)">{{ i+endPage}}</a>
+                    <!-- v-for="i in checkLastPageAboveTen.value > 1 ? 10+endPage<lastPage?10:lastPage-9 : lastPage" @click="changePage(i+endPage)">{{ checkLastPageAboveTen.value > 1 ?i+endPage:i}}</a> -->
+                    
+                    
+                    <!-- v-for="i in checkLastPageAboveTen.value > 1 ? 10+endPage<lastPage?10:lastPage-9 : lastPage" @click="changePage(i+endPage)">{{ checkLastPageAboveTen.value > 1 ?i+endPage:i}}</a> -->
+                    <!-- v-for="i in checkLastPageAboveTen.value > 1 ? 10+endPage<lastPage?10:lastPage-9 : lastPage" @click="changePage(i+endPage)">{{ i+endPage}}</a> -->
+                    <!-- v-for="i in checkLastPageAboveTen.value > 1 ? 10+endPage<lastPage?10:lastPage-9 : lastPage" @click="changePage(i+endPage>lastPage+1?lastPage+1:i+endPage)">{{ i+endPage}}</a> -->
+                    <!-- v-for="i in checkLastPageAboveTen.value > 1 ? 10+endPage<lastPage?10:lastPage-9 : lastPage" @click="changePage(i+endPage>lastPage+1?lastPage+1:i+endPage)">{{ i+endPage>lastPage+1?lastPage+1:i+endPage }}</a> -->
                      <!-- v-for="i in checkLastPageAboveTen.value > 1 ? 10 : lastPage" @click="changePage(i+endPage>lastPage+1?lastPage+1:i+endPage)">{{ i+endPage>lastPage+1?lastPage+1:i+endPage }}</a> -->
                      <!-- v-for="i in checkLastPageAboveTen.value > 1 ? 10 : lastPage" @click="changePage(i+endPage)">{{ i+endPage>lastPage+1?lastPage+1:i+endPage }}</a> -->
                      
@@ -90,9 +95,10 @@ onMounted(() => {
     fetch("http://localhost:8080/board/countPage", requestOptions)
         .then(response => response.text())
         .then(result => {
-            lastPage.value = result-1;  // 백엔드에서 마지막 페이지가 몇인지 계산해서 보내준다.
+            lastPage.value = parseInt(result, 10)+1;  // 백엔드에서 마지막 페이지가 몇인지 계산해서 보내준다.
             checkLastPageAboveTen.value = ref(Math.ceil(lastPage.value / 10)); // 백엔드에서 보내준 마지막 페이지 수가 10보다 큰지 작은지를 계산한다.
             console.log(lastPage.value)
+            console.log(checkLastPageAboveTen.value)
         })
         .catch(error => console.log('error', error));
 
