@@ -36,6 +36,9 @@
             </section>
         </section>
     </section>
+    
+    <Modal v-show="modalSwitch" @closeModal="openModal"></Modal>
+
 </template>
 
 
@@ -43,10 +46,14 @@
 import pageNation from './PageNation.vue'
 import {ref, reactive,onMounted } from 'vue';
 import dayjs from 'dayjs'
+import Modal from '../Modal/Modal.vue'
 
 
 let page = ref(0);
 let data = ref("");
+
+let modalSwitch = ref(false);
+
 
 function scrollToTop(){  // 스크롤을 맨 위로 올리는 함수, 필요 없는 줄 알았는데 디테일페이지에서 쓸모가 있어서 놔둠
     window.scrollTo(0, 0)
@@ -81,8 +88,7 @@ function formatDate(dateString){ //날짜 데이터가 timestamp 형태인 것�
 }
 
 function openModal(){ // 검색창 만들기
-    alert("오픈모달");
-    // 검색창과 관련된 모달 창 끼워 넣고 slot으로 내용 만들기?
+    modalSwitch.value=!modalSwitch.value;
 }
 
 </script>

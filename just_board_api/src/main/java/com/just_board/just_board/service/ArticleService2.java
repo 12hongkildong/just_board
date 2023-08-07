@@ -7,7 +7,8 @@ import org.springframework.data.domain.Pageable;
 import com.just_board.just_board.entity.Article2;
 
 public interface ArticleService2 {
-    List<Article2> getByListAll();
-    List<Article2> getByListPerPage(Pageable pageable);
-    int getTotalPages();
+    List<Article2> getByListAll();   // 게시글 총 리스트 -> 아마 안 쓸 거임
+    List<Article2> getByListPerPage(Pageable pageable); // 게시글을 5개 단위로 잘라 주는 거
+    int getTotalPages();    // 게시글 총 페이지 조회
+    List<Article2> getListBySearchKeyword(); // 제목+내용에 포함되는 키워드 가지고 오기
 }
