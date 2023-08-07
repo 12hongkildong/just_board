@@ -30,7 +30,7 @@
 
 
             <section class="grid justify-items-center pb-10"> <!-- 페이지네이션 -->
-                <pageNation></pageNation>
+                <pageNation @parentchangePage="getBoardList"></pageNation>
             </section>
         </section>
     </section>
@@ -47,10 +47,18 @@ let page = ref(0);
 let data = ref("");
 
 function scrollToTop(){  // 스크롤을 맨 위로 올리는 함수, 필요 없는 줄 알았는데 디테일페이지에서 쓸모가 있어서 놔둠
-    window.scrollTo(0, 0)
+    // window.scrollTo(0, 0)
 }
 
+
+
+
 onMounted(() => { // 데이터 값 받아오기
+    getBoardList(0)
+})
+
+function getBoardList(num){
+    page.value=num;
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
@@ -60,10 +68,10 @@ onMounted(() => { // 데이터 값 받아오기
         .then(response => response.json())
         .then(result => {
             data.value=result;
-            // console.log(result);
+            console.log("페이지"+page.value)
         })
         .catch(error => console.log('error', error));
-})
+}
 
 function formatDate(dateString){ //날짜 데이터가 timestamp 형태인 것을 내가 원하는 형태로 바꾸기 위한 함수
     const formattedDate = dayjs(dateString, "YYYY-MM-DD HH:mm:ss").format("YY/MM/DD");

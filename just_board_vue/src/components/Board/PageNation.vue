@@ -10,7 +10,7 @@
                     <!-- <div v-for="num in lastPage" :key="num">
                         <li><button class="" :class="currentPage == num ? 'h-10 px-5 text-white transition-colors duration-150 bg-indigo-600 focus:shadow-outline' : 'h-10 px-5 text-indigo-600 transition-colors duration-150 bg-white focus:shadow-outline hover:bg-indigo-100'" @click="changePage(num), getPage(num-1)">{{num}}</button></li>
                     </div> -->
-                    <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0" v-for="i in currentPresentPage.value > 1 ? 10 : lastPage" @click="changePage">{{ i }}</a>
+                    <a href="#"  class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300  focus:z-20 focus:outline-offset-0" :class="i===currentPage? 'bg-[#35469C] text-white':'hover:bg-gray-400'" v-for="i in checkLastPageAboveTen.value > 1 ? 10 : lastPage" @click="changePage(i)">{{ i }}</a>
                     <a href="#" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
                     <span class="sr-only">Next</span>
                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -24,11 +24,19 @@ import { ref, onMounted, onUpdated, defineEmits } from 'vue'
 
 let firstPage = 1;
 let lastPage = ref(1); // 총 페이지 수
-let currentPresentPage =ref(1);
+let checkLastPageAboveTen =ref(1);
+let currentPage = ref(1);
+
+const emit = defineEmits();
 
 // 게시글 페이지 바꾸기
-function changePage() {
-    
+function changePage(num) {
+    if(currentPage.value==num)
+        return;
+    else{
+        currentPage.value=num;
+        emit('parentchangePage', num);
+    }
 }
 
 onMounted(() => {
@@ -40,10 +48,8 @@ onMounted(() => {
     fetch("http://localhost:8080/board/countPage", requestOptions)
         .then(response => response.text())
         .then(result => {
-            lastPage.value = result-1;
-            currentPresentPage.value = ref(Math.ceil(lastPage.value / 10));
-            console.log(currentPresentPage.value)
-            console.log(typeof currentPresentPage)
+            lastPage.value = result-1;  // 백엔드에서 마지막 페이지가 몇인지 계산해서 보내준다.
+            checkLastPageAboveTen.value = ref(Math.ceil(lastPage.value / 10)); // 백엔드에서 보내준 마지막 페이지 수가 10보다 큰지 작은지를 계산한다.
         })
         .catch(error => console.log('error', error));
 
