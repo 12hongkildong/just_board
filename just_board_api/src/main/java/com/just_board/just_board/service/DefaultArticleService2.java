@@ -30,7 +30,8 @@ public class DefaultArticleService2 implements ArticleService2 {
     @Override
     public int getTotalPages() {
         int totalArticles = repository.countBy(); // 총 게시글 개수
-        int pageCount = (int) Math.round(totalArticles / 5);
+        int pageCount = (int) Math.ceil(totalArticles / 5);
+        System.out.println(pageCount);
 
         return pageCount;
     }

@@ -8,20 +8,22 @@
                     <div class="bg-search-logo h-6 w-6" ></div>검색
                 </button>
             </section>
-            <section class="grid grid-cols-[38rem_13rem_6.625rem_9rem] text-2xl h-[4.375rem] bg-[#D9D9D9] justify-items-center content-center">  <!-- 릴레이션 스키마 -->
-                <div>제목</div>
-                <div>글쓴이</div>
-                <div>추천수</div>
-                <div>날짜</div>
-            </section>
+            <section class="h-[23.125rem]">
+                <section class="grid grid-cols-[38rem_13rem_6.625rem_9rem] text-2xl h-[4.375rem] bg-[#D9D9D9] justify-items-center content-center">  <!-- 릴레이션 스키마 -->
+                    <div>제목</div>
+                    <div>글쓴이</div>
+                    <div>추천수</div>
+                    <div>날짜</div>
+                </section>
 
-            <!-- v-for하기 위한 목록 리스트 -->
-            <section v-for="(list, i) in data" :key="i" class="grid grid-cols-[38rem_13rem_6.625rem_9rem] text-2xl h-[3.75rem] justify-items-center content-center hover:bg-gray-100 ">
-                <h1 class="hidden">리스트</h1>
-                <router-link :to="{name : 'detail', params: {id: data[i].id}}" class="cursor-pointer hover:text-blue-400" @click="scrollToTop">{{ data[i].subject }}</router-link>
-                <div>{{ data[i].memberId.name }}</div>
-                <div>{{ data[i].like }}</div>
-                <div>{{ formatDate(data[i].date) }}</div>
+                <!-- v-for하기 위한 목록 리스트 -->
+                <section v-for="(list, i) in data" :key="i" class="grid grid-cols-[38rem_13rem_6.625rem_9rem] text-2xl h-[3.75rem] justify-items-center content-center hover:bg-gray-100 ">
+                    <h1 class="hidden">리스트</h1>
+                    <router-link :to="{name : 'detail', params: {id: data[i].id}}" class="cursor-pointer hover:text-blue-400" @click="scrollToTop">{{ data[i].subject }}</router-link>
+                    <div>{{ data[i].memberId.name }}</div>
+                    <div>{{ data[i].like }}</div>
+                    <div>{{ formatDate(data[i].date) }}</div>
+                </section>
             </section>
 
             <section class="grid justify-items-end font-bold m-4"> <!-- 글쓰기 버튼 -->
@@ -68,7 +70,7 @@ function getBoardList(num){
         .then(response => response.json())
         .then(result => {
             data.value=result;
-            console.log("페이지"+page.value)
+            // console.log("페이지"+page.value)
         })
         .catch(error => console.log('error', error));
 }
