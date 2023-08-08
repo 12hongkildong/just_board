@@ -4,19 +4,18 @@
         <section class="col-start-2">
             <section class="text-[2.5rem] m-3 font-bold">
                 <h1 class="hidden">게시글 제목</h1>
-                하나면 하나지 둘이겠느냐? 둘이면 둘이지 셋은 아니지
+                {{data.subject}}
             </section> <!-- 게시글 타이틀 -->
-            <section class="text-2xl bg-[#D9D9D9] h-[4.375rem] grid grid-cols-[minmax(8.75rem,18rem)_10rem_14rem] content-center pl-5">
+            <section class="text-2xl bg-[#D9D9D9] h-[4.375rem] grid grid-cols-[minmax(10rem,18rem)_1rem_10rem_1rem_14rem] content-center pl-5">
                 <h1 class="hidden">게시글 정보</h1>
-                <div class="">일이삼사오육칠팔구십</div>
-                <div>조회수 999</div>
-                <div>2023.07.24. 14:24</div>
+                <div class=""> {{data.memberId.name}} </div>|
+                <div class="text-center">조회수 {{data.hit}}</div>|
+                <div class="text-right">{{ formatDate(data.date) }}</div>
             </section>
             <section>
                 <h1 class="hidden">본문</h1>
                 <div class="m-12">
-                    {{data}} 이상 본문의 내용은 이런 글이 있을 예쩡입니다.
-                    아님 말고~
+                    {{data.content}}
                 </div>
             </section>
             <section class="grid">
@@ -59,16 +58,21 @@
 
 </template>
 <script setup>
-import { ref, defineProps, onUpdated } from 'vue'
+import { ref, defineProps, onUpdated, onMounted, onBeforeMount } from 'vue'
+import dayjs from 'dayjs'
 
 // props로 데이터 받아오기
 const props = defineProps({
     propp:{
-        type:Array,
+        type:Object,
+    },
+    count:{
+        type:Number,
     }
 });
 
 console.log(props)
+
 
 let data = ref(props.propp)
 
@@ -78,7 +82,14 @@ function commentOpen(){
     comment.value = !comment.value;   // 나중에 오픈을 for i in xxx 이런 식으로 해서 해당 키일 때만 열리게 해야 할 듯
 }
 
+function formatDate(dateString){ //날짜 데이터가 timestamp 형태인 것을 내가 원하는 형태로 바꾸기 위한 함수
+    const formattedDate = dayjs(dateString, "YYYY-MM-DD HH:mm:ss").format("YY/MM/DD HH:mm:ss");
+    return formattedDate;
+}
 
+onUpdated(()=>{
+    data = ref(props.propp)
+})
 </script>
 <style scoped>
     

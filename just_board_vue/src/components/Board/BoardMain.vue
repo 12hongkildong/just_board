@@ -1,6 +1,8 @@
 <template>
-<!-- 깃 이름이 기존 Yoo에서 YooWoo일 경우 잔디 심어지나 테스트222 0808 09:26 / 13:18 -->
-    <router-view :propp="data"></router-view>
+    <router-view :propp="sendData"></router-view>
+    <!-- <router-view :propp="data[ditailPageId]"></router-view> -->
+    <!-- <router-view :propp="data" :count="ditailPageId"></router-view> -->
+ <!-- <Detail :propp="data" :count="ditailPageId"></Detail> -->
     <section class="grid grid-cols-[minmax(26.75rem,_1fr)_66.5rem_minmax(26.75rem,_1fr)] mt-[5.625rem]"> <!-- 가장 겉 그리드 -->
         <section class="col-start-2">
             <section> <!-- 검색하기 모달 -->
@@ -19,7 +21,8 @@
                 <!-- v-for하기 위한 목록 리스트 -->
                 <section v-for="(list, i) in data" :key="i" class="grid grid-cols-[38rem_13rem_6.625rem_9rem] text-2xl h-[3.75rem] justify-items-center content-center hover:bg-gray-100 ">
                     <h1 class="hidden">리스트</h1>
-                    <router-link :to="{name : 'detail', params: {id: data[i].id}}" class="cursor-pointer hover:text-blue-400" @click="scrollToTop">{{ data[i].subject }}</router-link>
+                    <router-link :to="{name : 'detail', params: {id: data[i].id}}" class="cursor-pointer hover:text-blue-400" @click="scrollToTop(data[i])">{{ data[i].subject }}</router-link>
+                    <!-- <router-link :to="{name : 'detail', params: {id: data[i].id}}" class="cursor-pointer hover:text-blue-400" @click="scrollToTop(i)">{{ data[i].subject }}</router-link> -->
                     <div>{{ data[i].memberId.name }}</div>
                     <div>{{ data[i].like }}</div>
                     <div>{{ formatDate(data[i].date) }}</div>
@@ -43,12 +46,16 @@
 
 
 <script setup>
+// import Detail from './Detail.vue'
 import pageNation from './PageNation.vue'
 import {ref, reactive,onMounted, defineProps } from 'vue';
 import dayjs from 'dayjs'
 import Modal from '../Modal/Modal.vue'
 import { useSearchingKeywardStore } from '../../stores/useSearchingKeywordStore';
 
+let sendData = ref('');
+
+let ditailPageId= ref(0);
 
 let page = ref(0);
 let data = ref("");
@@ -63,9 +70,14 @@ function saveKeyword(keyword){
     useSearchingKeywardStore().saveKeyword(keyword);
 }
 
-function scrollToTop(){  // 스크롤을 맨 위로 올리는 함수, 필요 없는 줄 알았는데 디테일페이지에서 쓸모가 있어서 놔둠
-    window.scrollTo(0, 0)
+function scrollToTop(i){  // 스크롤을 맨 위로 올리는 함수, 필요 없는 줄 알았는데 디테일페이지에서 쓸모가 있어서 놔둠
+    window.scrollTo(0, 0);
+    sendData.value=i;
 }
+// function scrollToTop(i){  // 스크롤을 맨 위로 올리는 함수, 필요 없는 줄 알았는데 디테일페이지에서 쓸모가 있어서 놔둠
+//     window.scrollTo(0, 0);
+//     ditailPageId.value=i;
+// }
 
 onMounted(() => { // 최초 조회시 데이터 값 받아오기
     // getBoardList(0,currentKeyword.value)
@@ -104,9 +116,7 @@ function getBoardList(num, keyword) {
         .then(result => {
             data.value=result;
             console.log(data.value);
-
             pageReset.value.pageReset();
-            
         })
         .catch(error => console.log('error', error));
         //         alert("하잇")
