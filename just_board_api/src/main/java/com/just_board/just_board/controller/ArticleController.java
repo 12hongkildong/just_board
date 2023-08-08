@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,11 +43,10 @@ public class ArticleController {
         @RequestParam(name = "page", defaultValue = "0") int page,
         @PageableDefault(size=5, sort="id", direction = Sort.Direction.DESC)Pageable pageable)
     {
-
-        System.out.println("특정페이지만 출력");
-        System.out.println(pageable.getPageNumber());
-        System.out.println(pageable);
-        System.out.println();
+        // System.out.println("특정페이지만 출력");
+        // System.out.println(pageable.getPageNumber());
+        // System.out.println(pageable);
+        // System.out.println();
         System.out.println();
         return service.getByListPerPage(pageable);
     }
@@ -57,15 +57,11 @@ public class ArticleController {
         // 10개 넘기기 몇 번 하는 지
     @GetMapping("countPage")
     public int countPage(){
-        
-
         // 총페이지 = 모든 게시글 가지고 온 뒤 나누기 5해서 계산(참고로 무조건 올림처리)
-
         service.getTotalPages();
         System.out.println(service.getTotalPages());
         // page.add(service.getArticleCounts());
         // 10번 넘기기 = 
-
         return service.getTotalPages();
     }
 
@@ -108,6 +104,13 @@ public class ArticleController {
 
         return service.getTotalPages(keyword);
     }
+
+    @PostMapping("write")
+    public void write(){
+        service.writeArticle();
+        System.out.println("업로드 완료");
+    }
+
 
 
 }
