@@ -34,6 +34,7 @@ public class DefaultArticleService2 implements ArticleService2 {
     @Override
     public int getTotalPages() {
         int totalArticles = repository.countBy(); // 총 게시글 개수
+        
         int pageCount = (int) Math.ceil(totalArticles / 5);
         System.out.println(pageCount);
 
@@ -42,10 +43,27 @@ public class DefaultArticleService2 implements ArticleService2 {
 
 
     // 검색을 이용한 조회
+    // @Override
+    // public List<Article2> getListBySearchKeyword(String keyword) {
+    //     return repository.findBySubjectContainingOrContentContaining(keyword, keyword);
+    // }
+
+    // 검색한 키워드에 맞게 리스트 조회
     @Override
-    public List<Article2> getListBySearchKeyword() {
+    public List<Article2> getByListWithPageAndSearch(Pageable pageable, String keyword) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getListBySearchKeyword'");
+        return repository.findBySubjectContainingOrContentContaining(keyword, keyword, pageable);
     }
     
+    // 전체 게시글 페이지 수
+    @Override
+    public int getTotalPages(String keyword) {
+        Double totalArticles = repository.countBySubjectContainingOrContentContaining(keyword, keyword); // 총 게시글 개수
+        int pageCount = (int) Math.ceil(totalArticles / 5);
+        System.out.println(pageCount);
+
+        return pageCount;
+    }
+
+
 }

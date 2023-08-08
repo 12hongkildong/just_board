@@ -27,8 +27,13 @@
                 </nav>
 </template>
 <script setup>
-import { ref, onMounted, onUpdated, defineEmits, callWithErrorHandling } from 'vue'
+import { ref, onMounted, onUpdated, defineEmits, callWithErrorHandling, defineProps, defineExpose } from 'vue'
 
+const props = defineProps({
+    keyword:{
+        type:String,
+    }
+});
 
 let firstPage = 1;
 let lastPage = ref(1); // 총 페이지 수
@@ -45,7 +50,7 @@ function changePage(num) {
         return;
     else{
         currentPage.value=num;
-        emit('parentchangePage', num-1);
+        emit('parentchangePage', num-1, props.keyword);
     }
 }
 
@@ -85,24 +90,32 @@ function changeToNextTenPage(){ // 다음 페이지로 넘기기
 }
 
 onMounted(() => {
+    pageReset();
+})
 
+function pageReset(){
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
     };
 
     // 페이지네이션 보여 줄 개수 파악하는 식
-    fetch("http://localhost:8080/board/countPage", requestOptions)
+    fetch(`http://localhost:8080/board/countPage2?search=${props.keyword}`, requestOptions)
         .then(response => response.text())
         .then(result => {
-            lastPage.value = parseInt(result, 10)+1;  // 백엔드에서 마지막 페이지가 몇인지 계산해서 보내준다.
+            lastPage.value = parseInt(result, 10);  // 백엔드에서 마지막 페이지가 몇인지 계산해서 보내준다.
             checkLastPageAboveTen.value = ref(Math.ceil(lastPage.value / 10)); // 백엔드에서 보내준 마지막 페이지 수가 10보다 큰지 작은지를 계산한다.
-            console.log(lastPage.value)
-            console.log(checkLastPageAboveTen.value)
+            console.log('페이지네이션은'+result)
+            // console.log(lastPage.value)
+            // console.log(checkLastPageAboveTen.value)
         })
         .catch(error => console.log('error', error));
+}
 
-})
+defineExpose({
+    pageReset
+});
+
 
 </script>
 <style scoped lang="">

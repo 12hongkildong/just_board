@@ -32,21 +32,22 @@
 
 
             <section class="grid justify-items-center pb-10"> <!-- 페이지네이션 -->
-                <pageNation @parentchangePage="getBoardList"></pageNation>
+                <pageNation @parentchangePage="getBoardList" :keyword="currentKeyword" ref="pageReset"></pageNation>
             </section>
         </section>
     </section>
     
-    <Modal v-show="modalSwitch" @closeModal="openModal"></Modal>
+    <Modal v-show="modalSwitch" @closeModal="openModal" @searching="getBoardList"></Modal>
 
 </template>
 
 
 <script setup>
 import pageNation from './PageNation.vue'
-import {ref, reactive,onMounted } from 'vue';
+import {ref, reactive,onMounted, defineProps } from 'vue';
 import dayjs from 'dayjs'
 import Modal from '../Modal/Modal.vue'
+import { useSearchingKeywardStore } from '../../stores/useSearchingKeywordStore';
 
 
 let page = ref(0);
@@ -54,32 +55,61 @@ let data = ref("");
 
 let modalSwitch = ref(false);
 
+const pageReset = ref(null) //자식의 메소드 부모에서 사용하기 
+
+let currentKeyword = ref(useSearchingKeywardStore().keyword);
+
+function saveKeyword(keyword){
+    useSearchingKeywardStore().saveKeyword(keyword);
+}
 
 function scrollToTop(){  // 스크롤을 맨 위로 올리는 함수, 필요 없는 줄 알았는데 디테일페이지에서 쓸모가 있어서 놔둠
     window.scrollTo(0, 0)
 }
 
+onMounted(() => { // 최초 조회시 데이터 값 받아오기
+    // getBoardList(0,currentKeyword.value)
 
+    getBoardList(0,currentKeyword.value)
 
-
-onMounted(() => { // 데이터 값 받아오기
-    getBoardList(0)
 })
 
-function getBoardList(num){
-    page.value=num;
+// function getBoardList(num){
+//     page.value=num;
+//     var requestOptions = {
+//         method: 'GET',
+//         redirect: 'follow'
+//     };
+
+//     fetch(`http://localhost:8080/board/PaginatedBoard?page=${page.value}`, requestOptions)
+//         .then(response => response.json())
+//         .then(result => {
+//             data.value=result;
+//             // console.log("페이지"+page.value)
+//         })
+//         .catch(error => console.log('error', error));
+// }
+
+function getBoardList(num, keyword) {
+    page.value = num;
+    // saveKeyword(keyword)
+    currentKeyword.value=keyword;
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
     };
 
-    fetch(`http://localhost:8080/board/PaginatedBoard?page=${page.value}`, requestOptions)
+    fetch(`http://localhost:8080/board/search2?page=${page.value}&search=${currentKeyword.value}`, requestOptions)
         .then(response => response.json())
         .then(result => {
             data.value=result;
-            // console.log("페이지"+page.value)
+            console.log(data.value);
+
+            pageReset.value.pageReset();
+            
         })
         .catch(error => console.log('error', error));
+        //         alert("하잇")
 }
 
 function formatDate(dateString){ //날짜 데이터가 timestamp 형태인 것을 내가 원하는 형태로 바꾸기 위한 함수

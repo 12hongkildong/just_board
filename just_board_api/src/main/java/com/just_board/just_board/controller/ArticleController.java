@@ -76,12 +76,38 @@ public class ArticleController {
     // 조회수 증가
 
 
-    // 제목+내용 검색
-    @GetMapping(value="search")
-    public List<Article2> serchArticle2s(@RequestParam String param) {
-        // service.getListBySearchKeyword();
-        return service.getListBySearchKeyword();
+    // 제목+내용 검색 리스트 조회
+    // @GetMapping("search")
+    // public List<Article2> serchArticle2s(
+    //     @RequestParam("search") String keyword
+    //     ) {
+    //     return service.getListBySearchKeyword(keyword);
+    // }
+    
+    // 제목+내용 검색기능과 페이지네이션 기능을 추가 한 조회
+    @GetMapping("search2")
+    public List<Article2> pagenationSearchBoard(
+        @RequestParam(name = "page", defaultValue = "0") int page,
+        @PageableDefault(size=5, sort="id", direction = Sort.Direction.DESC)Pageable pageable,
+        @RequestParam("search") String keyword)
+    {
+        return service.getByListWithPageAndSearch(pageable, keyword);
     }
     
+    // keyword에 따른 카운트 페이지
+    @GetMapping("countPage2")
+    public int keywordCountPage(
+        @RequestParam("search") String keyword
+    ){
+        // 총페이지 = 모든 게시글 가지고 온 뒤 나누기 5해서 계산(참고로 무조건 올림처리)
+
+        service.getTotalPages(keyword);
+        System.out.println(service.getTotalPages());
+        // page.add(service.getArticleCounts());
+        // 10번 넘기기 = 
+
+        return service.getTotalPages(keyword);
+    }
+
 
 }
