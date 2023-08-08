@@ -1,5 +1,5 @@
 <template>
-<!-- 깃 이름이 기존 Yoo에서 YooWoo일 경우 잔디 심어지나 테스트222 -->
+<!-- 깃 이름이 기존 Yoo에서 YooWoo일 경우 잔디 심어지나 테스트222 0808 09:26 -->
     <router-view :propp="data"></router-view>
     <section class="grid grid-cols-[minmax(26.75rem,_1fr)_66.5rem_minmax(26.75rem,_1fr)] mt-[5.625rem]"> <!-- 가장 겉 그리드 -->
         <section class="col-start-2">
