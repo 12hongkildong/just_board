@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -105,12 +106,26 @@ public class ArticleController {
         return service.getTotalPages(keyword);
     }
 
-    @PostMapping("write")
-    public void write(){
-        service.writeArticle();
+
+    // 글 작성 api
+    @PostMapping("createArticle")
+    public void createArticle(
+        @RequestBody Article2 article
+    ){
+        service.createArticle(article);
+        // service.writeArticle(article.getMemberId(), article.getSubject(), article.getContent());
         System.out.println("업로드 완료");
     }
 
-
+    // 글 수정 api
+    @PostMapping("updateArticle")
+    public void updateArticle(
+        @RequestBody Article2 article
+    ){
+        
+        service.updateArticle(article);
+        // service.updateArticle(article.getId(), article.getSubject(), article.getContent());
+        System.out.println("업로드 완료");
+    }
 
 }

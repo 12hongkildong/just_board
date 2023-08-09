@@ -1,6 +1,5 @@
 package com.just_board.just_board.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +62,31 @@ public class DefaultArticleService2 implements ArticleService2 {
         System.out.println(pageCount);
 
         return pageCount;
+    }
+
+
+    @Override
+    public void createArticle(Article2 article) {
+        Article2 setArticle = new Article2();
+
+        setArticle.setMemberId(article.getMemberId());
+        setArticle.setSubject(article.getSubject());
+        setArticle.setContent(article.getContent());
+        
+
+        // repository.save(setArticle);
+        
+    }
+
+
+    @Override
+    public void updateArticle(Article2 article) {
+        Article2 updateArticle = new Article2();
+        updateArticle.setId(article.getId());
+        updateArticle.setSubject(article.getSubject());
+        updateArticle.setContent(article.getContent());
+
+        repository.save(updateArticle);
     }
 
 
