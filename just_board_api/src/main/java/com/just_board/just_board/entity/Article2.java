@@ -38,5 +38,6 @@ public class Article2 {
     // private int memberId;
     private Date date;
     private int hit;
-    private int like;
+    @Column(name="like_count")
+    private int likeCount;
 }

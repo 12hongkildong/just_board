@@ -14,6 +14,6 @@ public interface ArticleService2 {
     // List<Article2> getListBySearchKeyword(String keyword); // 제목+내용에 포함되는 키워드 가지고 오기
     List<Article2> getByListWithPageAndSearch(Pageable pageable, String keyword); // 키워드 검색과 게시글을 5개 단위로 잘라 주는 거
 
-    void createArticle(Article2 article);
-    void updateArticle(Article2 article);
+    void createArticle(Article2 article); // 글 작성
+    void updateArticle(Article2 article); // 글 수정
 }

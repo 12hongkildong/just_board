@@ -5,6 +5,7 @@ import Signup from '../components/Signup/MakeAccount.vue'
 import Board from '../components/Board/BoardMain.vue'
   import Detail from '../components/Board/Detail.vue'
   import Write from '../components/Board/Write.vue'
+  import Update from '../components/Board/Update.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,7 +38,14 @@ const router = createRouter({
     {
       path: '/write',
       name: 'write',
-      component: Write
+      component: Write,
+      props:true,
+    },
+    {
+      path: '/update',
+      name: 'update',
+      component: Update,
+      props:true,
     },
     {
       path: '/signup',

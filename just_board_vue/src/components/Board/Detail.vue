@@ -14,15 +14,17 @@
             </section>
             <section>
                 <h1 class="hidden">본문</h1>
-                <div class="m-12">
+                <div class="m-12 whitespace-pre-line">
                     {{data.content}}
                 </div>
             </section>
             <section class="grid">
                 <h1 class="hidden">좋아요 버튼</h1>
+                <div></div>
                 <div class="m-2 justify-self-center h-14 w-14 bg-[#D9D9D9] grid content-center">
                     <div class="bg-heart-logo h-6 w-7 justify-self-center content-center"></div>
                 </div>
+                <router-link to="/update" class="text-right" v-show="data.memberId.id==1" @click="saveDataToPinia">수정하기</router-link>
             </section>
             <hr class="border-t-8">
             <section class="mt-9">
@@ -60,6 +62,7 @@
 <script setup>
 import { ref, defineProps, onUpdated, onMounted, onBeforeMount } from 'vue'
 import dayjs from 'dayjs'
+import { useUpdateDataStore } from '../../stores/useUpdateDataStore';
 
 // props로 데이터 받아오기
 const props = defineProps({
@@ -90,6 +93,10 @@ function formatDate(dateString){ //날짜 데이터가 timestamp 형태인 것�
 onUpdated(()=>{
     data = ref(props.propp)
 })
+
+function saveDataToPinia(){
+    useUpdateDataStore().saveUpdateData(data.value)
+}
 </script>
 <style scoped>
     

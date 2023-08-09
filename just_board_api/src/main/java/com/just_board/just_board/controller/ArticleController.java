@@ -1,10 +1,8 @@
 package com.just_board.just_board.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -44,10 +42,11 @@ public class ArticleController {
         @RequestParam(name = "page", defaultValue = "0") int page,
         @PageableDefault(size=5, sort="id", direction = Sort.Direction.DESC)Pageable pageable)
     {
-        // System.out.println("특정페이지만 출력");
-        // System.out.println(pageable.getPageNumber());
-        // System.out.println(pageable);
-        // System.out.println();
+
+        System.out.println("특정페이지만 출력");
+        System.out.println(pageable.getPageNumber());
+        System.out.println(pageable);
+        System.out.println();
         System.out.println();
         return service.getByListPerPage(pageable);
     }
@@ -58,11 +57,15 @@ public class ArticleController {
         // 10개 넘기기 몇 번 하는 지
     @GetMapping("countPage")
     public int countPage(){
+        
+
         // 총페이지 = 모든 게시글 가지고 온 뒤 나누기 5해서 계산(참고로 무조건 올림처리)
+
         service.getTotalPages();
         System.out.println(service.getTotalPages());
         // page.add(service.getArticleCounts());
         // 10번 넘기기 = 
+
         return service.getTotalPages();
     }
 
@@ -106,7 +109,6 @@ public class ArticleController {
         return service.getTotalPages(keyword);
     }
 
-
     // 글 작성 api
     @PostMapping("createArticle")
     public void createArticle(
@@ -114,7 +116,7 @@ public class ArticleController {
     ){
         service.createArticle(article);
         // service.writeArticle(article.getMemberId(), article.getSubject(), article.getContent());
-        System.out.println("업로드 완료");
+        System.out.println("글작성 완료");
     }
 
     // 글 수정 api
@@ -125,7 +127,9 @@ public class ArticleController {
         
         service.updateArticle(article);
         // service.updateArticle(article.getId(), article.getSubject(), article.getContent());
-        System.out.println("업로드 완료");
+        System.out.println("글수정 완료");
     }
+
+
 
 }
