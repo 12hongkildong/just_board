@@ -6,8 +6,9 @@
                 <h1 class=hidden>게시글</h1> -->
             <textarea name="" id="" cols="30" rows="24" class="text-xl w-[66.5rem] border-solid border-2 border-[#35469C] p-9 resize-none whitespace-pre-line" placeholder="내용을 입력하세요." v-model="content"></textarea>
             <!-- </section> -->
-            <div class="grid justify-items-end">
-                <div class="h-[4rem] w-[5rem] bg-[#35469C] text-white text-3xl rounded-xl mt-5 cursor-pointer" @click="submit">등록</div>
+            <div class="grid justify-items-end grid-flow-col">
+                <button class="h-[4rem] w-[5rem] bg-[#35469C] text-white text-3xl rounded-xl mt-5 cursor-pointer ml-[50rem]" @click="submit">수정</button>
+                <button class="h-[4rem] w-[5rem] bg-[#9c3535] text-white text-3xl rounded-xl mt-5 cursor-pointer" @click="backToBoard">취소</button>
             </div>
         </section>
     </section>
@@ -16,67 +17,24 @@
 <script setup>
 import { ref, onUpdated, onMounted, defineProps } from 'vue'
 import { useMemberIdStore } from '../../stores/useMemberIdStore';
+import { useUpdateDataStore } from '../../stores/useUpdateDataStore';
 
-let subject = ref("");
-let content = ref("");
+let defaultData = ref(useUpdateDataStore().updateData);
+let subject = ref(defaultData.value.subject);
+let content = ref(defaultData.value.content);
 let defaultMemberId = ref(useMemberIdStore().memberId);
 
-
-const props = defineProps({
-    sendMemberId:{
-        type:Object,
-    },
-});
-
-let ttest = ref(props.dataz);
-
-// alert(ttest.value);
-alert(props.dataz)
-
-onMounted(() => {
-    console.log(defaultMemberId)
-})
-
 function submit(){
-    if(subject.value==""||content.value=="")
-        alert("제목 or 내용을 입력하세요")
-    else{
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    var raw = JSON.stringify({
-        "memberId": {
-            "id": defaultMemberId.value
-        },
-        "subject": subject.value,
-        "content": content.value
-    });
-
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-    };
-
-    fetch("http://localhost:8080/board/createArticle", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.log('error', error));
-
-        alert("성공")
-        window.location.href ='http://localhost:5173/board'
-    }
+// 이것만 작성하면 일단은 업데이트도 완료
 }
 
+function backToBoard(){
+    window.location.href ='http://localhost:5173/board'
+}
 // onUpdated(() => {
 //     console.log(subject.value);
 //     console.log(content.value)
 // })
-
-function kk(){
-    alert("하오하호")
-}
 
 </script>
 <style scoped></style>
