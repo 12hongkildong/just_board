@@ -78,8 +78,9 @@ const props = defineProps({
     }
 });
 
-console.log(props)
-
+onMounted(()=>{
+    //피니아 id에 있으면 화면 뿌려주고, 없으면 board로 가게 만들기
+})
 
 let data = ref(props.propp)
 
