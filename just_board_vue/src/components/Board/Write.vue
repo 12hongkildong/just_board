@@ -17,7 +17,9 @@
 <script setup>
 import { ref, onUpdated, onMounted, defineProps } from 'vue'
 import { useMemberIdStore } from '../../stores/useMemberIdStore';
+import { useRoute, useRouter } from 'vue-router';
 
+let router = useRouter(); // 라우터를 쓰기위한
 let subject = ref("");
 let content = ref("");
 let defaultMemberId = ref(useMemberIdStore().memberId);
@@ -58,8 +60,9 @@ function createArticle(){
 }
 
 function backToBoard(){
-    window.location.href ='http://localhost:5173/board'
+    router.push({name:'board'})
 }
+
 // onUpdated(() => {
 //     console.log(subject.value);
 //     console.log(content.value)

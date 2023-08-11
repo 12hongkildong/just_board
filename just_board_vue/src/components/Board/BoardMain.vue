@@ -52,6 +52,7 @@ import dayjs from 'dayjs'
 import Modal from '../Modal/Modal.vue'
 import { useSearchingKeywardStore } from '../../stores/useSearchingKeywordStore';
 import { useMemberIdStore } from '../../stores/useMemberIdStore';
+import { useTestStore } from '../../stores/useTestStore';
 
 let sendData = ref('');
 
@@ -117,8 +118,9 @@ function getBoardList(num, keyword) {
         .then(response => response.json())
         .then(result => {
             data.value=result;
-            console.log(data.value);
             pageReset.value.pageReset();
+            useTestStore().saveItems(result)
+            console.log(useTestStore().fetchedItems)
         })
         .catch(error => console.log('error', error));
         //         alert("하잇")

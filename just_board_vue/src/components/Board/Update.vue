@@ -69,7 +69,7 @@ function updateArticle() {
 
 function backToBoard() {
     alert("이동한다")
-    router.push( {name:'detail', params:{id:defaultData.value.id}})
+    router.push({name:'detail', params:{id:defaultData.value.id}})
 }
 
 </script>
