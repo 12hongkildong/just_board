@@ -7,7 +7,7 @@
             <textarea name="" id="" cols="30" rows="24" class="text-xl w-[66.5rem] border-solid border-2 border-[#35469C] p-9 resize-none whitespace-pre-line" placeholder="내용을 입력하세요." v-model="content"></textarea>
             <!-- </section> -->
             <div class="grid justify-items-end grid-flow-col">
-                <button class="h-[4rem] w-[5rem] bg-[#35469C] text-white text-3xl rounded-xl mt-5 cursor-pointer ml-[50rem]" @click="submit">등록</button>
+                <button class="h-[4rem] w-[5rem] bg-[#35469C] text-white text-3xl rounded-xl mt-5 cursor-pointer ml-[50rem]" @click="createArticle">등록</button>
                 <button class="h-[4rem] w-[5rem] bg-[#9c3535] text-white text-3xl rounded-xl mt-5 cursor-pointer" @click="backToBoard">취소</button>
             </div>
         </section>
@@ -26,7 +26,7 @@ onMounted(() => {
     console.log(defaultMemberId)
 })
 
-function submit(){
+function createArticle(){
     if(subject.value==""||content.value=="")
         alert("제목 or 내용을 입력하세요")
     else{

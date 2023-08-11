@@ -64,6 +64,10 @@ import { ref, defineProps, onUpdated, onMounted, onBeforeMount } from 'vue'
 import dayjs from 'dayjs'
 import { useUpdateDataStore } from '../../stores/useUpdateDataStore';
 
+import { useRoute, useRouter } from 'vue-router';
+let route = useRoute();
+let id = ref(route.params.id);
+
 // props로 데이터 받아오기
 const props = defineProps({
     propp:{

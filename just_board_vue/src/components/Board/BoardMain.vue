@@ -135,5 +135,7 @@ function openModal(){ // 검색창 만들기
 
 </script>
 <style scoped>
-    
+    .router-link-active{
+        color: red;
+    }
 </style>

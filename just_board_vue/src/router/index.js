@@ -52,6 +52,11 @@ const router = createRouter({
       name: 'signup',
       component: Signup
     },
+    {    // 경로에 없는 url적으면 무조건 게시판으로 넘기기
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: Board
+    },
     // {
     //       path: '/:id', 
     //       component:Detail,
