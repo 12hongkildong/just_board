@@ -105,7 +105,7 @@ function pageReset(){
         .then(result => {
             lastPage.value = parseInt(result, 10);  // 백엔드에서 마지막 페이지가 몇인지 계산해서 보내준다.
             checkLastPageAboveTen.value = ref(Math.ceil(lastPage.value / 10)); // 백엔드에서 보내준 마지막 페이지 수가 10보다 큰지 작은지를 계산한다.
-            console.log('페이지네이션은'+result)
+            // console.log('페이지네이션은'+result)
             // console.log(lastPage.value)
             // console.log(checkLastPageAboveTen.value)
         })

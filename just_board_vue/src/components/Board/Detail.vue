@@ -8,14 +8,15 @@
             </section> <!-- 게시글 타이틀 -->
             <section class="text-2xl bg-[#D9D9D9] h-[4.375rem] grid grid-cols-[minmax(10rem,18rem)_1rem_10rem_1rem_14rem] content-center pl-5">
                 <h1 class="hidden">게시글 정보</h1>
-                <div class=""> {{data.memberId.name}} </div>|
+                <!-- <div class=""> {{data.memberId.name}} </div>| -->
+                <div class=""> {{name}} </div>|
                 <div class="text-center">조회수 {{data.hit}}</div>|
                 <div class="text-right">{{ formatDate(data.date) }}</div>
             </section>
             <section>
                 <h1 class="hidden">본문</h1>
                 <div class="m-12 whitespace-pre-line">
-                    {{data.content}}
+                    {{data.content}} 
                 </div>
             </section>
             <section class="grid">
@@ -24,7 +25,7 @@
                 <div class="m-2 justify-self-center h-14 w-14 bg-[#D9D9D9] grid content-center">
                     <div class="bg-heart-logo h-6 w-7 justify-self-center content-center"></div>
                 </div>
-                <router-link to="/update" class="text-right" v-show="data.memberId.id==1" @click="saveDataToPinia">수정하기</router-link>
+                <!-- <router-link to="/update" class="text-right" v-show="data.memberId.id==1" @click="saveDataToPinia">수정하기</router-link> -->
             </section>
             <hr class="border-t-8">
             <section class="mt-9">
@@ -57,22 +58,38 @@
             </section>
         </section>
     </section>
-
 </template>
-<script setup>
-import { ref, defineProps, onUpdated, onMounted, onBeforeMount } from 'vue'
-import dayjs from 'dayjs'
-import { useUpdateDataStore } from '../../stores/useUpdateDataStore';
 
+<script setup>
+import { ref, defineProps, onUpdated, onMounted, onBeforeMount,reactive } from 'vue'
+import dayjs from 'dayjs'
 import { useRoute, useRouter } from 'vue-router';
+import { useUpdateDataStore } from '../../stores/useUpdateDataStore';
+import { useTestStore } from '../../stores/useTestStore';
+
 let route = useRoute();
 let id = ref(route.params.id);
 
+let piniaDate = ref(useTestStore().fetchedItems);
+let data = ref("")
+// let data = reactive({})
+let name = ref("")
+
+function updateContent(){
+    id = ref(route.params.id);
+    // console.log(useTestStore().findById(id));
+    data.value=useTestStore().findById(id);
+    // console.log(data.value.id)
+    // console.log(data.value)
+    console.log(data.value.memberId.name)
+    name.value=data.value.memberId.name
+    // console.log(data.value.subject)
+}
+
+// console.log(piniaDate.find(item => item.id === id.value))
+
 // props로 데이터 받아오기
 const props = defineProps({
-    propp:{
-        type:Object,
-    },
     count:{
         type:Number,
     }
@@ -80,9 +97,9 @@ const props = defineProps({
 
 onMounted(()=>{
     //피니아 id에 있으면 화면 뿌려주고, 없으면 board로 가게 만들기
+    updateContent();
 })
 
-let data = ref(props.propp)
 
 let comment = ref(false);
 
@@ -96,7 +113,9 @@ function formatDate(dateString){ //날짜 데이터가 timestamp 형태인 것�
 }
 
 onUpdated(()=>{
-    data = ref(props.propp)
+    // data = ref(props.propp)
+    // console.log("아이디"+id.value)
+    updateContent();
 })
 
 function saveDataToPinia(){

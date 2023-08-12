@@ -1,8 +1,5 @@
 <template>
-    <router-view :propp="sendData"></router-view>
-    <!-- <router-view :propp="data[ditailPageId]"></router-view> -->
-    <!-- <router-view :propp="data" :count="ditailPageId"></router-view> -->
- <!-- <Detail :propp="data" :count="ditailPageId"></Detail> -->
+    <router-view></router-view>
     <section class="grid grid-cols-[minmax(26.75rem,_1fr)_66.5rem_minmax(26.75rem,_1fr)] mt-[5.625rem]"> <!-- 가장 겉 그리드 -->
         <section class="col-start-2">
             <section> <!-- 검색하기 모달 -->
@@ -21,7 +18,7 @@
                 <!-- v-for하기 위한 목록 리스트 -->
                 <section v-for="(list, i) in data" :key="i" class="grid grid-cols-[38rem_13rem_6.625rem_9rem] text-2xl h-[3.75rem] justify-items-center content-center hover:bg-gray-100 ">
                     <h1 class="hidden">리스트</h1>
-                    <router-link :to="{name : 'detail', params: {id: data[i].id}}" class="cursor-pointer hover:text-blue-400" @click="scrollToTop(data[i])">{{ data[i].subject }}</router-link>
+                    <router-link :to="{name : 'detail', params: {id: data[i].id}}" class="cursor-pointer hover:text-blue-400" @click="scrollToTop()">{{ data[i].subject }}</router-link>
                     <!-- <router-link :to="{name : 'detail', params: {id: data[i].id}}" class="cursor-pointer hover:text-blue-400" @click="scrollToTop(i)">{{ data[i].subject }}</router-link> -->
                     <div>{{ data[i].memberId.name }}</div>
                     <div>{{ data[i].like }}</div>
@@ -41,7 +38,7 @@
         </section>
     </section>
     
-    <Modal v-show="modalSwitch" @closeModal="openModal" @searching="getBoardList"></Modal>
+    <Modal v-show="modalSwitch" @closeModal="openModal" @searching="getBoardList"></Modal> <!-- 검색기능 모달 -->
 </template>
 
 <script setup>
@@ -67,26 +64,17 @@ const pageReset = ref(null) //자식의 메소드 부모에서 사용하기
 
 let currentKeyword = ref(useSearchingKeywardStore().keyword);
 let currentMemberId = ref(useMemberIdStore().memberId);
-// alert(currentMemberId.value)
 
 function saveKeyword(keyword){
     useSearchingKeywardStore().saveKeyword(keyword);
 }
 
-function scrollToTop(i){  // 스크롤을 맨 위로 올리는 함수, 필요 없는 줄 알았는데 디테일페이지에서 쓸모가 있어서 놔둠
+function scrollToTop(){  // 스크롤을 맨 위로 올리는 함수, 필요 없는 줄 알았는데 디테일페이지에서 쓸모가 있어서 놔둠
     window.scrollTo(0, 0);
-    sendData.value=i;
 }
-// function scrollToTop(i){  // 스크롤을 맨 위로 올리는 함수, 필요 없는 줄 알았는데 디테일페이지에서 쓸모가 있어서 놔둠
-//     window.scrollTo(0, 0);
-//     ditailPageId.value=i;
-// }
 
 onMounted(() => { // 최초 조회시 데이터 값 받아오기
-    // getBoardList(0,currentKeyword.value)
-
     getBoardList(0,currentKeyword.value)
-
 })
 
 // function getBoardList(num){
@@ -107,7 +95,6 @@ onMounted(() => { // 최초 조회시 데이터 값 받아오기
 
 function getBoardList(num, keyword) {
     page.value = num;
-    // saveKeyword(keyword)
     currentKeyword.value=keyword;
     var requestOptions = {
         method: 'GET',

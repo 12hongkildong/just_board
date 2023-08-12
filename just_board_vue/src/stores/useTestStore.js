@@ -14,5 +14,12 @@ export const useTestStore = defineStore("test", {
                 }
             }
         },
+        findById(id) {
+            for (const item of this.fetchedItems) {
+                if (item.id==id.value) {
+                    return item;
+                }
+            }
+        },
     }
 });

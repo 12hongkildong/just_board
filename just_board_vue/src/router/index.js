@@ -43,7 +43,7 @@ const router = createRouter({
       props:true,
     },
     {
-      path: '/update',
+      path: '/:id/update',
       name: 'update',
       component: Update,
       props:true,
