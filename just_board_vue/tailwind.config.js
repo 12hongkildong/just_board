@@ -11,6 +11,7 @@ export default {
        'search-logo':"url('./src/assets/icon/search.svg')",
        'heart-logo':"url('./src/assets/icon/heart.svg')",
        'heart-black-logo':"url('./src/assets/icon/heartBlack.svg')",
+       'post-setting-logo':"url('./src/assets/icon/postSetting.svg')",
       }
     },
   },

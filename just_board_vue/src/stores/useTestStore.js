@@ -21,5 +21,6 @@ export const useTestStore = defineStore("test", {
                 }
             }
         },
-    }
+    },
+    persist: true,
 });

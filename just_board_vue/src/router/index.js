@@ -34,7 +34,6 @@ const router = createRouter({
           name:'detail',
           props: true,
         },
-
       ]
     },
     {

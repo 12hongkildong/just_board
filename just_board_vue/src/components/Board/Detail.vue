@@ -25,7 +25,13 @@
                 <div class="m-2 justify-self-center h-14 w-14 bg-[#D9D9D9] grid content-center">
                     <div class="bg-heart-logo h-6 w-7 justify-self-center content-center"></div>
                 </div>
-                <router-link :to="{name:'update', params:{id:data.id}}" class="text-right" v-show="memberId.id==1" @click="saveDataToPinia">수정하기</router-link>
+                <div class='bg-post-setting-logo h-6 w-6 justify-self-end content-end relative cursor-pointer '  v-show="memberId.id==1" @click="settingBtn=!settingBtn">
+                    <div class="w-24 h-14 bg-white border-solid border-2 border-[#35469C] absolute  top-6 left-[-4rem] right-0 select-none " v-show="settingBtn">
+                        <router-link :to="{name:'update', params:{id:data.id}}" class="text-right hover:text-red-400" @click="saveDataToPinia">수정하기</router-link>
+                        <div class="h-4 w-4 cursor-none"></div>
+                        <span class="hover:text-red-400">삭제하기</span>
+                    </div>
+                </div>
             </section>
             <hr class="border-t-8">
             <section class="mt-9">
@@ -73,7 +79,8 @@ let id = ref(route.params.id);
 let piniaDate = ref(useTestStore().fetchedItems);
 let data = ref("")
 // let data = reactive({})
-let memberId = ref("")
+let memberId = ref("");
+let settingBtn=ref(false);
 
 function updateContent(){
     id = ref(route.params.id);
@@ -98,6 +105,7 @@ const props = defineProps({
 onMounted(()=>{
     //피니아 id에 있으면 화면 뿌려주고, 없으면 board로 가게 만들기
     updateContent();
+    settingBtn.value=false
 })
 
 
