@@ -15,7 +15,7 @@
 
 </template>
 <script setup>
-import { ref, onUpdated, onMounted, defineProps } from 'vue'
+import { ref, onUpdated, onMounted, defineProps, defineEmits } from 'vue'
 import { useLoginMemberIdStore } from '../../stores/useLoginMemberIdStore';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -24,8 +24,10 @@ let subject = ref("");
 let content = ref("");
 let defaultMemberId = ref(useLoginMemberIdStore().memberId);
 
+const emit = defineEmits();
+
 onMounted(() => {
-    console.log(defaultMemberId)
+    // console.log(defaultMemberId)
 })
 
 function createArticle(){
@@ -60,7 +62,10 @@ function createArticle(){
 }
 
 function backToBoard(){
-    router.push({name:'board'})
+    // router.push({name:'board'})
+    // emit('throwFunction')
+    window.location.href ='http://localhost:5173/board'
+
 }
 
 // onUpdated(() => {

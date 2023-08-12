@@ -27,7 +27,7 @@
             </section>
 
             <section class="grid justify-items-end font-bold m-4"> <!-- 글쓰기 버튼 -->
-                <router-link to="/write" class="text-2xl grid grid-cols-[1.5rem_1fr]"><div class="bg-create-logo h-6 w-6"></div>글쓰기</router-link>
+                <router-link to="/write" class="text-2xl grid grid-cols-[1.5rem_1fr]"><div class="bg-create-logo h-6 w-6" @throwFunction="catchz()"></div>글쓰기</router-link>
                 <!-- <router-link :to="{name:'/write', params:{defaultMember:currentMemberId}}" class="text-2xl grid grid-cols-[1.5rem_1fr]"><div class="bg-create-logo h-6 w-6" :sendMemberId="currentMemberId"></div>글쓰기</router-link> -->
             </section>
 
@@ -44,7 +44,7 @@
 <script setup>
 // import Detail from './Detail.vue'
 import pageNation from './PageNation.vue'
-import {ref, reactive,onMounted, defineProps } from 'vue';
+import {ref, reactive,onMounted, defineProps, onUpdated } from 'vue';
 import dayjs from 'dayjs'
 import Modal from '../Modal/Modal.vue'
 import { useSearchingKeywardStore } from '../../stores/useSearchingKeywordStore';
@@ -120,6 +120,14 @@ function formatDate(dateString){ //날짜 데이터가 timestamp 형태인 것�
 
 function openModal(){ // 검색창 만들기
     modalSwitch.value=!modalSwitch.value;
+}
+
+onUpdated(()=>{{
+
+}})
+
+function catchz(){
+    console.log("라우터링크 펑션보내기")
 }
 
 </script>

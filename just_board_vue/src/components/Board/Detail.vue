@@ -151,11 +151,6 @@ function deleteArticle() {
         }
         { // 피니아에서 삭제
             useTestStore().deleteDate(parseInt(id.value))
-            // useTestStore().deleteDate(55)
-            // useTestStore().deleteDate(54)
-            // useTestStore().deleteDate(53)
-            // useTestStore().deleteDate(52)
-            // useTestStore().deleteDate(51)
         }
     }
     else
