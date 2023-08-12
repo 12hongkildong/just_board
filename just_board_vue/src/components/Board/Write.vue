@@ -16,13 +16,13 @@
 </template>
 <script setup>
 import { ref, onUpdated, onMounted, defineProps } from 'vue'
-import { useMemberIdStore } from '../../stores/useMemberIdStore';
+import { useLoginMemberIdStore } from '../../stores/useLoginMemberIdStore';
 import { useRoute, useRouter } from 'vue-router';
 
 let router = useRouter(); // 라우터를 쓰기위한
 let subject = ref("");
 let content = ref("");
-let defaultMemberId = ref(useMemberIdStore().memberId);
+let defaultMemberId = ref(useLoginMemberIdStore().memberId);
 
 onMounted(() => {
     console.log(defaultMemberId)

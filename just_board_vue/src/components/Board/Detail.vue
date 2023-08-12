@@ -9,7 +9,7 @@
             <section class="text-2xl bg-[#D9D9D9] h-[4.375rem] grid grid-cols-[minmax(10rem,18rem)_1rem_10rem_1rem_14rem] content-center pl-5">
                 <h1 class="hidden">게시글 정보</h1>
                 <!-- <div class=""> {{data.memberId.name}} </div>| -->
-                <div class=""> {{name}} </div>|
+                <div class=""> {{memberId.name}} </div>|
                 <div class="text-center">조회수 {{data.hit}}</div>|
                 <div class="text-right">{{ formatDate(data.date) }}</div>
             </section>
@@ -25,7 +25,7 @@
                 <div class="m-2 justify-self-center h-14 w-14 bg-[#D9D9D9] grid content-center">
                     <div class="bg-heart-logo h-6 w-7 justify-self-center content-center"></div>
                 </div>
-                <!-- <router-link to="/update" class="text-right" v-show="data.memberId.id==1" @click="saveDataToPinia">수정하기</router-link> -->
+                <router-link :to="{name:'update', params:{id:data.id}}" class="text-right" v-show="memberId.id==1" @click="saveDataToPinia">수정하기</router-link>
             </section>
             <hr class="border-t-8">
             <section class="mt-9">
@@ -73,7 +73,7 @@ let id = ref(route.params.id);
 let piniaDate = ref(useTestStore().fetchedItems);
 let data = ref("")
 // let data = reactive({})
-let name = ref("")
+let memberId = ref("")
 
 function updateContent(){
     id = ref(route.params.id);
@@ -81,8 +81,8 @@ function updateContent(){
     data.value=useTestStore().findById(id);
     // console.log(data.value.id)
     // console.log(data.value)
-    console.log(data.value.memberId.name)
-    name.value=data.value.memberId.name
+    // console.log(data.value.memberId.name)
+    memberId.value=data.value.memberId
     // console.log(data.value.subject)
 }
 

@@ -17,7 +17,7 @@
 </template>
 <script setup>
 import { ref, onUpdated, onMounted, defineProps } from 'vue'
-import { useMemberIdStore } from '../../stores/useMemberIdStore';
+import { useLoginMemberIdStore } from '../../stores/useLoginMemberIdStore';
 import { useUpdateDataStore } from '../../stores/useUpdateDataStore';
 
 import { useRoute, useRouter } from 'vue-router';
@@ -28,7 +28,7 @@ let id = ref("");
 let defaultData = ref(useUpdateDataStore().updateData);
 let subject = ref(defaultData.value.subject);
 let content = ref(defaultData.value.content);
-let defaultMemberId = ref(useMemberIdStore().memberId);
+let defaultMemberId = ref(useLoginMemberIdStore().memberId);
 
 onMounted(()=>{
     console.log(defaultData);

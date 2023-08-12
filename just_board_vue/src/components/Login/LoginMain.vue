@@ -10,7 +10,7 @@
                 <div class="text-2xl">비밀번호</div>
                 <input type="password" class="h-12 w-80 rounded-lg">
             </section>
-            <button class="bg-[#35469C] text-white rounded-lg h-12 w-80 text-xl">로그인</button>
+            <button class="bg-[#35469C] text-white rounded-lg h-12 w-80 text-xl" @click="$router.push('/board')">로그인</button>
             <router-link to="signup" class="text-xl text-blue-700 text-center">회원가입</router-link>
             <router-view></router-view>
             <section class="grid grid-cols-[5rem_5rem]">

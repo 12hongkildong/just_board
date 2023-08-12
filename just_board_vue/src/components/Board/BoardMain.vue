@@ -48,7 +48,7 @@ import {ref, reactive,onMounted, defineProps } from 'vue';
 import dayjs from 'dayjs'
 import Modal from '../Modal/Modal.vue'
 import { useSearchingKeywardStore } from '../../stores/useSearchingKeywordStore';
-import { useMemberIdStore } from '../../stores/useMemberIdStore';
+import { useLoginMemberIdStore } from '../../stores/useLoginMemberIdStore';
 import { useTestStore } from '../../stores/useTestStore';
 
 let sendData = ref('');
@@ -63,7 +63,7 @@ let modalSwitch = ref(false);
 const pageReset = ref(null) //자식의 메소드 부모에서 사용하기 
 
 let currentKeyword = ref(useSearchingKeywardStore().keyword);
-let currentMemberId = ref(useMemberIdStore().memberId);
+let currentMemberId = ref(useLoginMemberIdStore().memberId);
 
 function saveKeyword(keyword){
     useSearchingKeywardStore().saveKeyword(keyword);

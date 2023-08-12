@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory,createWebHashHistory } from 'vue-router'
 import Login from '../components/Login/LoginMain.vue'
 import Signup from '../components/Signup/MakeAccount.vue'
 
@@ -8,7 +8,8 @@ import Board from '../components/Board/BoardMain.vue'
   import Update from '../components/Board/Update.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  // history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
