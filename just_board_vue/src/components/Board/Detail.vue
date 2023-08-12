@@ -29,7 +29,7 @@
                     <div class="w-24 h-14 bg-white border-solid border-2 border-[#35469C] absolute  top-6 left-[-4rem] right-0 select-none " v-show="settingBtn">
                         <router-link :to="{name:'update', params:{id:data.id}}" class="text-right hover:text-red-400" @click="saveDataToPinia">수정하기</router-link>
                         <div class="h-4 w-4 cursor-none"></div>
-                        <span class="hover:text-red-400">삭제하기</span>
+                        <span class="hover:text-red-400" @click="deleteArticle">삭제하기</span>
                     </div>
                 </div>
             </section>
@@ -67,29 +67,30 @@
 </template>
 
 <script setup>
-import { ref, defineProps, onUpdated, onMounted, onBeforeMount,reactive } from 'vue'
+import { ref, defineProps, onUpdated, onMounted, onBeforeMount, reactive } from 'vue'
 import dayjs from 'dayjs'
 import { useRoute, useRouter } from 'vue-router';
 import { useUpdateDataStore } from '../../stores/useUpdateDataStore';
 import { useTestStore } from '../../stores/useTestStore';
 
 let route = useRoute();
+let router = useRouter();
 let id = ref(route.params.id);
 
 let piniaDate = ref(useTestStore().fetchedItems);
 let data = ref("")
 // let data = reactive({})
 let memberId = ref("");
-let settingBtn=ref(false);
+let settingBtn = ref(false);
 
-function updateContent(){
+function updateContent() {
     id = ref(route.params.id);
     // console.log(useTestStore().findById(id));
-    data.value=useTestStore().findById(id);
+    data.value = useTestStore().findById(id);
     // console.log(data.value.id)
     // console.log(data.value)
     // console.log(data.value.memberId.name)
-    memberId.value=data.value.memberId
+    memberId.value = data.value.memberId
     // console.log(data.value.subject)
 }
 
@@ -97,39 +98,69 @@ function updateContent(){
 
 // props로 데이터 받아오기
 const props = defineProps({
-    count:{
-        type:Number,
+    count: {
+        type: Number,
     }
 });
 
-onMounted(()=>{
+onMounted(() => {
     //피니아 id에 있으면 화면 뿌려주고, 없으면 board로 가게 만들기
     updateContent();
-    settingBtn.value=false
+    settingBtn.value = false
 })
 
 
 let comment = ref(false);
 
-function commentOpen(){
+function commentOpen() {
     comment.value = !comment.value;   // 나중에 오픈을 for i in xxx 이런 식으로 해서 해당 키일 때만 열리게 해야 할 듯
 }
 
-function formatDate(dateString){ //날짜 데이터가 timestamp 형태인 것을 내가 원하는 형태로 바꾸기 위한 함수
+function formatDate(dateString) { //날짜 데이터가 timestamp 형태인 것을 내가 원하는 형태로 바꾸기 위한 함수
     const formattedDate = dayjs(dateString, "YYYY-MM-DD HH:mm:ss").format("YY/MM/DD HH:mm:ss");
     return formattedDate;
 }
 
-onUpdated(()=>{
+onUpdated(() => {
     // data = ref(props.propp)
     // console.log("아이디"+id.value)
     updateContent();
 })
 
-function saveDataToPinia(){
+function saveDataToPinia() {
     useUpdateDataStore().saveUpdateData(data.value)
 }
+
+function deleteArticle() {
+    var result = window.confirm("정말로 이 글을 삭제하시겠습니까?");
+    if (result) {
+        { // db에서 삭제
+            var raw = "";
+
+            var requestOptions = {
+                method: 'DELETE',
+                body: raw,
+                redirect: 'follow'
+            };
+
+            fetch(`http://localhost:8080/board/deleteArticle?articleId=${id.value}`, requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+            router.push({name:'board'})
+        }
+        { // 피니아에서 삭제
+            useTestStore().deleteDate(parseInt(id.value))
+            // useTestStore().deleteDate(55)
+            // useTestStore().deleteDate(54)
+            // useTestStore().deleteDate(53)
+            // useTestStore().deleteDate(52)
+            // useTestStore().deleteDate(51)
+        }
+    }
+    else
+        console.log("실패")
+}
+
 </script>
-<style scoped>
-    
-</style>
+<style scoped></style>

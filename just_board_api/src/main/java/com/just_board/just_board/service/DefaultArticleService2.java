@@ -98,5 +98,12 @@ public class DefaultArticleService2 implements ArticleService2 {
     }
 
 
+    @Override
+    public void deleteArticle(Long id) {
+        // TODO Auto-generated method stub
+        repository.deleteById(id);
+    }
+
+
 
 }

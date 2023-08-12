@@ -16,4 +16,5 @@ public interface ArticleService2 {
 
     void createArticle(Article2 article); // 글 작성
     void updateArticle(Article2 article); // 글 수정
+    void deleteArticle(Long id);
 }
