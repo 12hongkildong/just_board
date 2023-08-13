@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.just_board.just_board.dto.CommentSummary;
 import com.just_board.just_board.entity.Article2;
 import com.just_board.just_board.entity.Comment;
 import com.just_board.just_board.service.CommentService;
@@ -31,6 +32,12 @@ public class CommentController {
     public List<Comment> getArticleComment(
             @RequestParam("articleId") Long articleId) {
         return service.getArticleComment(articleId);
+    }
+
+    @GetMapping("getArticleDivisionComment")
+    public List<CommentSummary> getArticleDivisionComment(
+            @RequestParam("articleId") Long articleId) {
+        return service.getArticleDivisionComment(articleId);
     }
 
     @PostMapping("postComment")

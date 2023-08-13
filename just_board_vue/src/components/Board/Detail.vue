@@ -38,11 +38,13 @@
                 <h1 class="hidden">댓글 공간</h1>
                 <section class="border-t-2">
                     <h1 class="hidden">댓글 리스트</h1>
-                    <div class="grid grid-cols-2 bg-[#D9D9D9]">
-                        <div class="m-2">서정권</div>
-                        <div class="justify-self-end m-2">2023.07.24.</div>
-                    </div>
-                    <div class="m-6">신경 쓰지마 너에 앞길은 너무 밝아~ 하늘을 보면 기분이</div>
+                    <section >
+                        <div class="grid grid-cols-2 bg-[#D9D9D9]">
+                            <div class="m-2">서정권</div>
+                            <div class="justify-self-end m-2">2023.07.24.</div>
+                        </div>
+                        <div class="m-6">신경 쓰지마 너에 앞길은 너무 밝아~ 하늘을 보면 기분이</div>
+                    </section>
                     <div class="grid">
                         <div class="mb-3 justify-self-end cursor-pointer" @click="commentOpen">답글</div>
                     </div>
@@ -64,6 +66,7 @@
             </section>
         </section>
     </section>
+    {{commentText[0]}}
 </template>
 
 <script setup>
@@ -82,6 +85,7 @@ let data = ref("")
 // let data = reactive({})
 let memberId = ref("");
 let settingBtn = ref(false);
+let commentText = ref("");
 
 function updateContent() {
     id = ref(route.params.id);
@@ -92,6 +96,7 @@ function updateContent() {
     // console.log(data.value.memberId.name)
     memberId.value = data.value.memberId
     // console.log(data.value.subject)
+
 }
 
 // console.log(piniaDate.find(item => item.id === id.value))
@@ -103,10 +108,26 @@ const props = defineProps({
     }
 });
 
+function getComment() {
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+    };
+
+    fetch(`http://localhost:8080/comment/getArticleComment?articleId=${id.value}`, requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            commentText.value=result;
+            console.log(commentText);
+        })
+        .catch(error => console.log('error', error));
+}
+
 onMounted(() => {
     //피니아 id에 있으면 화면 뿌려주고, 없으면 board로 가게 만들기
     updateContent();
     settingBtn.value = false
+    getComment();
 })
 
 
@@ -124,7 +145,10 @@ function formatDate(dateString) { //날짜 데이터가 timestamp 형태인 것�
 onUpdated(() => {
     // data = ref(props.propp)
     // console.log("아이디"+id.value)
-    updateContent();
+    {
+        updateContent();
+        getComment();
+    }
 })
 
 function saveDataToPinia() {
@@ -147,7 +171,7 @@ function deleteArticle() {
                 .then(response => response.text())
                 .then(result => console.log(result))
                 .catch(error => console.log('error', error));
-            router.push({name:'board'})
+            router.push({ name: 'board' })
         }
         { // 피니아에서 삭제
             useTestStore().deleteDate(parseInt(id.value))

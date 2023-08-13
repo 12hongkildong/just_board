@@ -41,5 +41,4 @@ public class Comment {
     private int refOrder;
     @Column(name="answer_num")
     private Long answerNum;    
-
 }
