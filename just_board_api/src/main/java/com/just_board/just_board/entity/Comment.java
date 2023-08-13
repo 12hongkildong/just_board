@@ -1,12 +1,14 @@
 package com.just_board.just_board.entity;
 
-import java.security.Timestamp;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,12 +24,22 @@ import lombok.NoArgsConstructor;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String content;
-    @Column(name="member_id")
-    private int memberId;
-    @Column(name="article_id")
-    private int articleId;
-    private Timestamp date;
+    @ManyToOne
+    @JoinColumn(name="member_id")
+    private Member memberId;    
+    @ManyToOne
+    @JoinColumn(name="article_id")
+    private Article2 articleId;
+    private Date date;
+    @Column(name="ref_id")
+    private int refId;
+    private int step;
+    private int ref;
+    @Column(name="ref_order")
+    private int refOrder;
+    @Column(name="answer_num")
+    private Long answerNum;    
 
 }
