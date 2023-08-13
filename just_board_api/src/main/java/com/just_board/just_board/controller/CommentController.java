@@ -23,17 +23,20 @@ public class CommentController {
 
     @GetMapping("getComment")
     public List<Comment> getComment(
-        @RequestParam("articleId") Long articleId
-    ){
+            @RequestParam("articleId") Long articleId) {
         return service.getCommentList(articleId);
+    }
+
+    @GetMapping("getArticleComment")
+    public List<Comment> getArticleComment(
+            @RequestParam("articleId") Long articleId) {
+        return service.getArticleComment(articleId);
     }
 
     @PostMapping("postComment")
     public List<Comment> postComment(
-        @RequestBody Article2 articleId
-    ){
+            @RequestBody Article2 articleId) {
         return service.getCommentList(articleId);
     }
-
 
 }

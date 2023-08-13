@@ -8,6 +8,6 @@ import com.just_board.just_board.entity.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment,Long>{
 
-    // List<Comment> findByArticleId(Long articleId);
+    List<Comment> findByArticleId_Id(Long articleId);
     
 }

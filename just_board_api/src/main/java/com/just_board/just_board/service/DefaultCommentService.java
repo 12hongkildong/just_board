@@ -11,7 +11,7 @@ import com.just_board.just_board.entity.Comment;
 import com.just_board.just_board.repository.CommentRepository;
 
 @Service
-public class DefaultCommentService implements CommentService{
+public class DefaultCommentService implements CommentService {
 
     @Autowired
     private CommentRepository repository;
@@ -20,7 +20,12 @@ public class DefaultCommentService implements CommentService{
     public List<Comment> getCommentList(Long articleId) {
         // TODO Auto-generated method stub
         return repository.findAll();
-       
+    }
+
+    @Override
+    public List<Comment> getArticleComment(Long articleId) {
+        // TODO Auto-generated method stub
+        return repository.findByArticleId_Id(articleId);
     }
 
     @Override
@@ -28,4 +33,10 @@ public class DefaultCommentService implements CommentService{
         // TODO Auto-generated method stub
         return repository.findAll();
     }
+
+
+
+
+
+
 }
