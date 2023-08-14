@@ -34,50 +34,7 @@
                 </div>
             </section>
             <hr class="border-t-8">
-            <section class="mt-9">
-                <h1 class="hidden">댓글 공간</h1>
-                <section class="border-t-2">
-                    <h1 class="hidden">댓글 리스트</h1>
-                    <!-- <section >
-                        <div class="grid grid-cols-2 bg-[#D9D9D9]">
-                            <div class="m-2">서정권</div>
-                            <div class="justify-self-end m-2">2023.07.24.</div>
-                        </div>
-                        <div class="m-6">신경 쓰지마 너에 앞길은 너무 밝아~ 하늘을 보면 기분이</div>
-                    </section>
-                    <div class="grid">
-                        <div class="mb-3 justify-self-end cursor-pointer" @click="commentOpen">답글</div>
-                    </div>
-                    
-                -->
-                    <section v-for="(comment, i) in commentText" :key="i">
-                        <div :class="comment.step!=0?'ml-14':''">
-                            <div class="grid grid-cols-2 bg-[#D9D9D9]">
-                                <div class="m-2">{{comment.memberName}}</div>
-                                <div class="justify-self-end m-2">{{formatDate(comment.date)}}</div>
-                            </div>
-                            <div class="m-6">{{comment.content}}</div>
-                            <div class="grid">
-                                <div class="mb-3 justify-self-end cursor-pointer" @click="commentOpen(i)">답글</div>
-                            </div>
-                            <section class="grid justify-items-end" v-show="commentBox[i].value">
-                                <h1 class="hidden">댓글 달기</h1>
-                                <textarea name="" id="" cols="30" rows="2"  placeholder="댓글을 작성하세요." class="border-solid border-2 w-[60rem] text-2xl p-5 resize-none"></textarea>
-                                <div>
-                                    <button class="h-[3rem] w-[4rem] bg-[#35469C] text-white text-2xl rounded-xl mt-5 mb-5 ">등록</button>
-                                    <button class="h-[3rem] w-[4rem] bg-white border-2 border-[#35469C] text-2xl rounded-xl mt-5 mb-5 ml-3" @click="commentOpen(i)">취소</button>
-                                </div>
-                            </section>
-                        </div>    
-                    </section>
-                </section>
-
-                <section class="grid justify-items-end">
-                    <h1 class="hidden">댓글 달기</h1>
-                    <textarea name="" id="" cols="30" rows="2"  placeholder="댓글을 작성하세요." class="border-solid border-2 w-[66.5rem] text-2xl p-5 resize-none"></textarea>
-                    <button class="h-[3rem] w-[4rem] bg-[#35469C] text-white text-2xl rounded-xl mt-5 ">등록</button>
-                </section>
-            </section>
+            <Comment :idValue="id" :routerParam="route.params.id"></Comment>
         </section>
     </section>
 </template>
@@ -88,6 +45,7 @@ import dayjs from 'dayjs'
 import { useRoute, useRouter } from 'vue-router';
 import { useUpdateDataStore } from '../../stores/useUpdateDataStore';
 import { useTestStore } from '../../stores/useTestStore';
+import Comment from './Comment.vue'
 
 let route = useRoute();
 let router = useRouter();
@@ -97,14 +55,7 @@ let piniaDate = ref(useTestStore().fetchedItems);
 let data = ref("")
 let memberId = ref("");
 let settingBtn = ref(false);
-let commentText = ref("");
 
-// let commentBox = ref(false); // 대댓글 입력박스
-let commentBox = ref([]); // 대댓글 입력박스
-function commentOpen(i) {
-    commentBox.value[i].value = !commentBox.value[i].value
-    // commentBox[i].value = !commentBox[i].value;   // 나중에 오픈을 for i in xxx 이런 식으로 해서 해당 키일 때만 열리게 해야 할 듯
-}
 
 function updateContent() {
     id = ref(route.params.id);
@@ -115,7 +66,6 @@ function updateContent() {
 onBeforeUpdate(() => {
     if (id.value !== route.params.id) {
         id.value = route.params.id;
-        getComment();
         updateContent();
     }
 });
@@ -127,31 +77,12 @@ const props = defineProps({
     }
 });
 
-function getComment() {
-    var requestOptions = {
-        method: 'GET',
-        redirect: 'follow'
-    };
-
-    fetch(`http://localhost:8080/comment/getArticleDivisionComment?articleId=${id.value}`, requestOptions)
-        .then(response => response.json())
-        .then(result => {
-            commentText.value = result;
-            commentBox.value = commentText.value.map(() => ref(false));
-        })
-        .catch(error => console.log('error', error));
-}
-
-// let commentBox = [];
-
 onMounted(() => {
     //피니아 id에 있으면 화면 뿌려주고, 없으면 board로 가게 만들기
     settingBtn.value = false
-    getComment();
     updateContent();
 
 })
-
 
 function formatDate(dateString) { //날짜 데이터가 timestamp 형태인 것을 내가 원하는 형태로 바꾸기 위한 함수
     const formattedDate = dayjs(dateString, "YYYY-MM-DD HH:mm:ss").format("YY/MM/DD HH:mm:ss");

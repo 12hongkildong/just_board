@@ -1,5 +1,6 @@
 package com.just_board.just_board.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,8 @@ public class DefaultCommentService implements CommentService {
     @Override
     public String createComment3(Comment comment) {
         // TODO Auto-generated method stub
-
+        // Date currentDate = new Date();
+        // comment.setDate(currentDate); // 시간을 java로 계산한 건데 js에서 계산해서 보내주는 걸로 바꿈 
         repository.save(comment);
 
         return "댓글성공";
