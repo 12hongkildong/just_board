@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.just_board.just_board.dto.CommentSummary;
 import com.just_board.just_board.dto.CreateComment;
+import com.just_board.just_board.dto.UpdateRefOrder;
 import com.just_board.just_board.entity.Article2;
 import com.just_board.just_board.entity.Comment;
 
@@ -24,7 +25,9 @@ public interface CommentService {
 
     String createComment3(Comment comment);
 
-
+    String updateRefOrder(Comment updateTarget);
+    
+    String updateRefOrder(UpdateRefOrder updateTarget);
 
     // 대댓글 등록
 }

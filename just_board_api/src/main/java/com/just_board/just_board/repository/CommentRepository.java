@@ -33,4 +33,6 @@ public interface CommentRepository extends JpaRepository<Comment,Long>{
     @Query("INSERT INTO Comment (content, memberId, articleId) VALUES (:content, :memberId, :articleId)")
     void insertComment(@Param("content") String content, @Param("memberId") Long memberId, @Param("articleId") Long articleId);
 
+    @Query("UPDATE Comment c SET c.refOrder = c.refOrder + 1 WHERE c.articleId = :articleId AND c.ref = :ref AND c.refOrder >= :refOrder")
+    void updateRefOrder(@Param("articleId") Long articleId, @Param("ref") Long ref, @Param("refOrder") Long refOrder);
 }   

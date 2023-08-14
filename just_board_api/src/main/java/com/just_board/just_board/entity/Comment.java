@@ -37,11 +37,11 @@ public class Comment {
     // private Long articleId;
     private Date date;
     @Column(name="ref_id")
-    private int refId;
-    private int step;
-    private int ref;
+    private Long refId;
+    private Long step;
+    private Long ref;
     @Column(name="ref_order")
-    private int refOrder;
+    private Long refOrder;
     @Column(name="answer_num")
     private Long answerNum;    
 }
