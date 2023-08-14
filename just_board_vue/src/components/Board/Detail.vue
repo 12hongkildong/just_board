@@ -38,7 +38,7 @@
                 <h1 class="hidden">댓글 공간</h1>
                 <section class="border-t-2">
                     <h1 class="hidden">댓글 리스트</h1>
-                    <section >
+                    <!-- <section >
                         <div class="grid grid-cols-2 bg-[#D9D9D9]">
                             <div class="m-2">서정권</div>
                             <div class="justify-self-end m-2">2023.07.24.</div>
@@ -48,14 +48,28 @@
                     <div class="grid">
                         <div class="mb-3 justify-self-end cursor-pointer" @click="commentOpen">답글</div>
                     </div>
-                    <section class="grid justify-items-end" v-show="comment">
-                        <h1 class="hidden">댓글 달기</h1>
-                        <textarea name="" id="" cols="30" rows="2"  placeholder="댓글을 작성하세요." class="border-solid border-2 w-[60rem] text-2xl p-5 resize-none"></textarea>
-                        <div>
-                            <button class="h-[3rem] w-[4rem] bg-[#35469C] text-white text-2xl rounded-xl mt-5 mb-5 ">등록</button>
-                            <button class="h-[3rem] w-[4rem] bg-white border-2 border-[#35469C] text-2xl rounded-xl mt-5 mb-5 ml-3" @click="commentOpen">취소</button>
-                        </div>
-                    </section>    
+                    
+                -->
+                    <section v-for="(comment, i) in commentText" :key="i">
+                        <div :class="comment.step!=0?'ml-14':''">
+                            <div class="grid grid-cols-2 bg-[#D9D9D9]">
+                                <div class="m-2">{{comment.memberName}}</div>
+                                <div class="justify-self-end m-2">{{comment.date}}</div>
+                            </div>
+                            <div class="m-6">{{comment.content}}</div>
+                            <div class="grid">
+                                <div class="mb-3 justify-self-end cursor-pointer" @click="commentOpen(i)">답글</div>
+                            </div>
+                            <section class="grid justify-items-end" v-show="commentBox[i].value">
+                                <h1 class="hidden">댓글 달기</h1>
+                                <textarea name="" id="" cols="30" rows="2"  placeholder="댓글을 작성하세요." class="border-solid border-2 w-[60rem] text-2xl p-5 resize-none"></textarea>
+                                <div>
+                                    <button class="h-[3rem] w-[4rem] bg-[#35469C] text-white text-2xl rounded-xl mt-5 mb-5 ">등록</button>
+                                    <button class="h-[3rem] w-[4rem] bg-white border-2 border-[#35469C] text-2xl rounded-xl mt-5 mb-5 ml-3" @click="commentOpen(i)">취소</button>
+                                </div>
+                            </section>
+                        </div>    
+                    </section>
                 </section>
 
                 <section class="grid justify-items-end">
@@ -66,11 +80,10 @@
             </section>
         </section>
     </section>
-    {{commentText[0]}}
 </template>
 
 <script setup>
-import { ref, defineProps, onUpdated, onMounted, onBeforeMount, reactive } from 'vue'
+import { ref, defineProps, onUpdated, onMounted, onBeforeMount, reactive, onActivated, onBeforeUpdate } from 'vue'
 import dayjs from 'dayjs'
 import { useRoute, useRouter } from 'vue-router';
 import { useUpdateDataStore } from '../../stores/useUpdateDataStore';
@@ -82,24 +95,30 @@ let id = ref(route.params.id);
 
 let piniaDate = ref(useTestStore().fetchedItems);
 let data = ref("")
-// let data = reactive({})
 let memberId = ref("");
 let settingBtn = ref(false);
 let commentText = ref("");
 
-function updateContent() {
-    id = ref(route.params.id);
-    // console.log(useTestStore().findById(id));
-    data.value = useTestStore().findById(id);
-    // console.log(data.value.id)
-    // console.log(data.value)
-    // console.log(data.value.memberId.name)
-    memberId.value = data.value.memberId
-    // console.log(data.value.subject)
-
+// let commentBox = ref(false); // 대댓글 입력박스
+let commentBox = ref([]); // 대댓글 입력박스
+function commentOpen(i) {
+    commentBox.value[i].value = !commentBox.value[i].value
+    // commentBox[i].value = !commentBox[i].value;   // 나중에 오픈을 for i in xxx 이런 식으로 해서 해당 키일 때만 열리게 해야 할 듯
 }
 
-// console.log(piniaDate.find(item => item.id === id.value))
+function updateContent() {
+    id = ref(route.params.id);
+    data.value = useTestStore().findById(id);
+    memberId.value = data.value.memberId
+}
+
+onBeforeUpdate(() => {
+    if (id.value !== route.params.id) {
+        id.value = route.params.id;
+        getComment();
+        updateContent();
+    }
+});
 
 // props로 데이터 받아오기
 const props = defineProps({
@@ -114,42 +133,39 @@ function getComment() {
         redirect: 'follow'
     };
 
-    fetch(`http://localhost:8080/comment/getArticleComment?articleId=${id.value}`, requestOptions)
+    fetch(`http://localhost:8080/comment/getArticleDivisionComment?articleId=${id.value}`, requestOptions)
         .then(response => response.json())
         .then(result => {
-            commentText.value=result;
-            console.log(commentText);
+            commentText.value = result;
+            commentBox.value = commentText.value.map(() => ref(false));
         })
         .catch(error => console.log('error', error));
 }
 
+// let commentBox = [];
+
 onMounted(() => {
     //피니아 id에 있으면 화면 뿌려주고, 없으면 board로 가게 만들기
-    updateContent();
     settingBtn.value = false
     getComment();
+    updateContent();
+
 })
 
-
-let comment = ref(false);
-
-function commentOpen() {
-    comment.value = !comment.value;   // 나중에 오픈을 for i in xxx 이런 식으로 해서 해당 키일 때만 열리게 해야 할 듯
-}
 
 function formatDate(dateString) { //날짜 데이터가 timestamp 형태인 것을 내가 원하는 형태로 바꾸기 위한 함수
     const formattedDate = dayjs(dateString, "YYYY-MM-DD HH:mm:ss").format("YY/MM/DD HH:mm:ss");
     return formattedDate;
 }
 
-onUpdated(() => {
-    // data = ref(props.propp)
-    // console.log("아이디"+id.value)
-    {
-        updateContent();
-        getComment();
-    }
-})
+// onUpdated(() => {
+//     // data = ref(props.propp)
+//     // console.log("아이디"+id.value)
+//     {
+//         // updateContent();
+//         // getComment();
+//     }
+// })
 
 function saveDataToPinia() {
     useUpdateDataStore().saveUpdateData(data.value)
