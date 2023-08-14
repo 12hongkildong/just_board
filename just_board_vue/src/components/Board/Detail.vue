@@ -54,7 +54,7 @@
                         <div :class="comment.step!=0?'ml-14':''">
                             <div class="grid grid-cols-2 bg-[#D9D9D9]">
                                 <div class="m-2">{{comment.memberName}}</div>
-                                <div class="justify-self-end m-2">{{comment.date}}</div>
+                                <div class="justify-self-end m-2">{{formatDate(comment.date)}}</div>
                             </div>
                             <div class="m-6">{{comment.content}}</div>
                             <div class="grid">

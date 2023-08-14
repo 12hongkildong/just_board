@@ -29,9 +29,12 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name="member_id")
     private Member memberId;    
+        // @JoinColumn(name="member_id_id")
+    // private Long memberId;    
     @ManyToOne
     @JoinColumn(name="article_id")
     private Article2 articleId;
+    // private Long articleId;
     private Date date;
     @Column(name="ref_id")
     private int refId;
