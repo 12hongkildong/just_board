@@ -7,8 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.just_board.just_board.dto.CommentSummary;
+import com.just_board.just_board.entity.Article2;
 import com.just_board.just_board.entity.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment,Long>{
@@ -33,6 +35,19 @@ public interface CommentRepository extends JpaRepository<Comment,Long>{
     @Query("INSERT INTO Comment (content, memberId, articleId) VALUES (:content, :memberId, :articleId)")
     void insertComment(@Param("content") String content, @Param("memberId") Long memberId, @Param("articleId") Long articleId);
 
+
+    // comment버전
+    @Modifying // @Query는 자동으로 select문으로 인식하기 때문에 업데이트기능을 수행하려면 @Modifying으로 알려줘야 한다.
+    @Transactional
+    @Query("UPDATE Comment c SET c.refOrder = c.refOrder + 1 WHERE c.articleId = :articleId AND c.ref = :ref AND c.refOrder >= :refOrder")
+    void updateRefOrder2(@Param("articleId") Article2 articleId, @Param("ref") int ref, @Param("refOrder") int refOrder);
+
+
+
+    // UpdateRefOrder버전
+    @Modifying // @Query는 자동으로 select문으로 인식하기 때문에 업데이트기능을 수행하려면 @Modifying으로 알려줘야 한다.
+    @Transactional
     @Query("UPDATE Comment c SET c.refOrder = c.refOrder + 1 WHERE c.articleId = :articleId AND c.ref = :ref AND c.refOrder >= :refOrder")
     void updateRefOrder(@Param("articleId") Long articleId, @Param("ref") Long ref, @Param("refOrder") Long refOrder);
+    // void updateRefOrderByArticleIdAndRefAndRefOrderGreaterThanEqual(Long articleId, Long ref, Long refOrder);
 }   

@@ -80,7 +80,7 @@ public class DefaultCommentService implements CommentService {
     public String updateRefOrder(Comment updateTarget) {
         // TODO Auto-generated method stub
         // repository.updateRefOrder(updateTarget.getArticleId(), updateTarget.getRef(), updateTarget.getRefOrder());
-
+        repository.updateRefOrder2(updateTarget.getArticleId(), updateTarget.getRef(), updateTarget.getRefOrder());
         return "refOrder 업데이트 성공";
     }
 
@@ -88,8 +88,10 @@ public class DefaultCommentService implements CommentService {
     public String updateRefOrder(UpdateRefOrder updateTarget) {
         // TODO Auto-generated method stub
         repository.updateRefOrder(updateTarget.getArticleId(), updateTarget.getRef(), updateTarget.getRefOrder());
-
-        return "refOrder 업데이트 성공";
+        // repository.updateRefOrderByArticleIdAndRefAndRefOrderGreaterThanEqual(updateTarget.getArticleId(), updateTarget.getRef(), updateTarget.getRefOrder());
+        System.out.println(updateTarget.getArticleId()+" / "+ updateTarget.getRef()+ " / "+updateTarget.getRefOrder());
+         System.out.println(updateTarget.getId()+" / "+ updateTarget.getRef()+ " / "+updateTarget.getRefOrder());
+       return "refOrder 업데이트 성공";
     }
 
 }

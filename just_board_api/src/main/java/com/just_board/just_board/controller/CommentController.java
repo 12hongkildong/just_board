@@ -85,4 +85,11 @@ public class CommentController {
         service.updateRefOrder(updateTarget);
         return "업데이트 성공";
     }
+        @PostMapping("updateRefOrder2") // 대댓글 작성 시 출력순서를 위해 refOrder 값을 업데이트해주는 api
+    public String updateRefOrder2(
+        @RequestBody Comment updateTarget
+    ){
+        service.updateRefOrder(updateTarget);
+        return "업데이트 성공";
+    }
 }

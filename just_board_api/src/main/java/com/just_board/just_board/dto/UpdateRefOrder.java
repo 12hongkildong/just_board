@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Transactional
 public class UpdateRefOrder {
 
-    
+    private int id;
     private Long articleId;
     private Long ref;
     private Long refOrder;

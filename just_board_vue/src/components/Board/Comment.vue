@@ -9,7 +9,7 @@
                         <div class="m-2">{{comment.memberName}}</div>
                         <div class="justify-self-end m-2">{{formatDate(comment.date)}}</div>
                     </div>
-                    <div class="m-6">{{comment.content}}</div>
+                    <div class="m-6 whitespace-pre-line">{{comment.content}}</div>
                     <div class="grid">
                         <div class="mb-3 justify-self-end cursor-pointer" @click="commentOpen(i)">답글</div>
                     </div>
@@ -32,7 +32,6 @@
         </section>
     </section>
 
-    {{refValueExtraction()}}
 </template>
 
 <script setup>
@@ -143,61 +142,88 @@ function addComment() { //댓글
 }
 
 
-function refOrderCalc(i){
+function refOrderCalc(i){ //대댓글 refOrder 구하기
     //스탭 -> 부모스텝 +1
     //refOder -> 부
     const standardStep = commentText.value[i].step+1
     let maxRefOrder = -1;
 
     for (let a in commentText.value) 
-        if (standardStep === commentText.value[a].step)
-            if (commentText.value[a].refOrder > maxRefOrder) {
-                maxRefOrder = commentText.value[a].refOrder;
-            }
+        if(commentText.value[i].id===commentText.value[a].refId)
+            if (standardStep === commentText.value[a].step)
+                if (commentText.value[a].refOrder > maxRefOrder) {
+                    maxRefOrder = commentText.value[a].refOrder;
+                }
 
     if (maxRefOrder !== -1) {
+        alert(maxRefOrder+1)
+        refOrderUpdate(i,(maxRefOrder+1))
         return maxRefOrder + 1; // 같은 step 값을 가진 댓글 중 최댓값 + 1
     } else {
+        refOrderUpdate(i,(commentText.value[i].refOrder+1))
+        alert(commentText.value[i].refOrder + 1)
         return commentText.value[i].refOrder + 1; // 같은 step 값을 갖는 댓글이 없을 경우 부모의 refOrder + 1
     }
+}
+
+function refOrderUpdate(i, refOrder) { // 이거 동작 안함 수정해야 함
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+        "articleId": {
+            "id": id.value
+        },
+        "ref": i,
+        "refOrder": refOrder
+    });
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
+
+    fetch("http://localhost:8080/comment/updateRefOrder2", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
 }
 
 function addReply(i) { // 대댓글
     // alert(i);
     console.log(commentText.value[i].id)
-    // var myHeaders = new Headers();
-    // myHeaders.append("Content-Type", "application/json");
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
-    // var raw = JSON.stringify({
-    //     "content": commentReplay.value,
-    //     "memberId": {
-    //         "id": useLoginMemberIdStore().memberId
-    //     },
-    //     "articleId": {
-    //         "id": id.value
-    //     },
-    //     "date": (new Date()).toISOString(),
-    //     // "date": (new Date()).getTime(),
-    //     "refId": commentText.value[i].Id,
-    //     "ref": commentText.value[i].ref,
-    //     "refOrder": refOrderCalc(i), 
-    //     "step": commentText.value[i].step+1
-    // });
+    var raw = JSON.stringify({
+        "content": commentReplay.value,
+        "memberId": {
+            "id": useLoginMemberIdStore().memberId
+        },
+        "articleId": {
+            "id": id.value
+        },
+        "date": (new Date()).toISOString(),
+        "refId":commentText.value[i].id,
+        "ref": commentText.value[i].ref,
+        "refOrder": refOrderCalc(i), 
+        "step": commentText.value[i].step+1
+    });
 
-    // var requestOptions = {
-    //     method: 'POST',
-    //     headers: myHeaders,
-    //     body: raw,
-    //     redirect: 'follow'
-    // };
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+    };
 
-    // fetch("http://localhost:8080/comment/regComment3", requestOptions)
-    //     .then(response => response.text())
-    //     .then(result => console.log(result))
-    //     .catch(error => console.log('error', error));
-    // commentReplay.value = ""; // 대댓글 입력칸 초기화
-
-
+    fetch("http://localhost:8080/comment/regComment3", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+    commentReplay.value = ""; // 대댓글 입력칸 초기화
 }
 
 function formatDate(dateString) { //날짜 데이터가 timestamp 형태인 것을 내가 원하는 형태로 바꾸기 위한 함수
