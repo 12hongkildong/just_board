@@ -14,7 +14,6 @@ import { RouterLink, RouterView } from 'vue-router'
           <button class="text-[#35469C] text-2xl mr-[2rem] bg-white h-12 w-32 rounded-xl">로그아웃</button>
         </section>
       </section>
-      <!-- <div class="text-white text-7xl col-start-2">Just_Board</div> -->
     </section>
   </header>
   <RouterView />

@@ -20,20 +20,20 @@ public class DefaultCommentService implements CommentService {
     @Autowired
     private CommentRepository repository;
 
-    @Override // 삭제할 메소드
-    public List<Comment> getCommentList(Long articleId) {
-        // TODO Auto-generated method stub
-        return repository.findAll();
-    }
+    // @Override // 삭제할 메소드
+    // public List<Comment> getCommentList(Long articleId) {
+    //     // TODO Auto-generated method stub
+    //     return repository.findAll();
+    // }
 
-    @Override // 삭제할 메소드
+/*     @Override // 삭제할 메소드
     public List<Comment> getArticleComment(Long articleId) {
         // TODO Auto-generated method stub
         // return repository.findByArticleId_Id(articleId);
         Sort sort = Sort.by(Sort.Direction.ASC, "ref", "refOrder");
         List<Comment> comments = repository.findByArticleId_Id(articleId, sort);
         return comments;
-    }
+    } */
 
     @Override // 삭제할 메소드
     public List<CommentSummary> getArticleDivisionComment(Long articleId) {
@@ -44,27 +44,27 @@ public class DefaultCommentService implements CommentService {
         return comments;
     }
 
-    @Override // 삭제할 메소드
-    public List<Comment> getCommentList(Article2 articleId) {
-        // TODO Auto-generated method stub
-        return repository.findAll();
-    }
+    // @Override // 삭제할 메소드
+    // public List<Comment> getCommentList(Article2 articleId) {
+    //     // TODO Auto-generated method stub
+    //     return repository.findAll();
+    // }
 
-    @Override  // 삭제할 메소드
-    public String createComment(CommentSummary comment) {
+    // @Override  // 삭제할 메소드
+    // public String createComment(CommentSummary comment) {
         
-        // repository.insertDto(comment);
-        // repository.insertComment();
-        return "댓글 쓰기 성공";
-    }
+    //     // repository.insertDto(comment);
+    //     // repository.insertComment();
+    //     return "댓글 쓰기 성공";
+    // }
 
-    @Override  // 삭제할 메소드
-    public String createComment2(CreateComment comment) {
-        // TODO Auto-generated method stub
-        System.out.println(comment);
-        repository.insertComment(comment.getContent(),comment.getMemberId(),comment.getArticleId());
-        return "댓글 쓰기 성공?";
-    }
+    // @Override  // 삭제할 메소드
+    // public String createComment2(CreateComment comment) {
+    //     // TODO Auto-generated method stub
+    //     System.out.println(comment);
+    //     repository.insertComment(comment.getContent(),comment.getMemberId(),comment.getArticleId());
+    //     return "댓글 쓰기 성공?";
+    // }
 
     @Override
     public String createComment3(Comment comment) {
@@ -76,15 +76,16 @@ public class DefaultCommentService implements CommentService {
         return "댓글성공";
     }
 
-    @Override   // 삭제할 메소드
+    @Override 
     public String updateRefOrder(Comment updateTarget) {
         // TODO Auto-generated method stub
         // repository.updateRefOrder(updateTarget.getArticleId(), updateTarget.getRef(), updateTarget.getRefOrder());
         repository.updateRefOrder2(updateTarget.getArticleId(), updateTarget.getRef(), updateTarget.getRefOrder());
+        System.out.println("시이이랭");
         return "refOrder 업데이트 성공";
     }
 
-    @Override
+    @Override  // 삭제할 메소드
     public String updateRefOrder(UpdateRefOrder updateTarget) {
         // TODO Auto-generated method stub
         repository.updateRefOrder(updateTarget.getArticleId(), updateTarget.getRef(), updateTarget.getRefOrder());
@@ -92,6 +93,14 @@ public class DefaultCommentService implements CommentService {
         System.out.println(updateTarget.getArticleId()+" / "+ updateTarget.getRef()+ " / "+updateTarget.getRefOrder());
          System.out.println(updateTarget.getId()+" / "+ updateTarget.getRef()+ " / "+updateTarget.getRefOrder());
        return "refOrder 업데이트 성공";
+    }
+
+    @Override
+    public String deletebyArticleId(Long articleId) {
+        Article2 article = new Article2();
+        article.setId(articleId);
+        repository.deleteAllByArticleId(article);
+        return "모든 댓글 삭제 완료";
     }
 
 }

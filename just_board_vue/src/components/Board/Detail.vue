@@ -8,7 +8,6 @@
             </section> <!-- 게시글 타이틀 -->
             <section class="text-2xl bg-[#D9D9D9] h-[4.375rem] grid grid-cols-[minmax(10rem,18rem)_1rem_10rem_1rem_14rem] content-center pl-5">
                 <h1 class="hidden">게시글 정보</h1>
-                <!-- <div class=""> {{data.memberId.name}} </div>| -->
                 <div class=""> {{memberId.name}} </div>|
                 <div class="text-center">조회수 {{data.hit}}</div>|
                 <div class="text-right">{{ formatDate(data.date) }}</div>
@@ -23,17 +22,9 @@
                 <h1 class="hidden">좋아요 버튼</h1>
                 <div></div>
                 <div class="m-2 justify-self-center h-14 w-14 bg-[#D9D9D9] grid content-center">
-                    <!-- <div class="bg-heart-logo h-6 w-7 justify-self-center content-center"></div> -->
                     <div class="bg-svg-heart h-6 w-7 justify-self-center content-center"></div>
                 </div>
-                <!-- <div class="">아랄랄</div>
-                <div class="bg-test-svg h-6 w-6 justify-self-end content-end relative cursor-pointer"  v-show="memberId.id==1" @click="settingBtn=!settingBtn"> -->
-                <!-- <div class="bg-[url('/img/hero-pattern.svg')]"> -->
-                <!-- <div class='bg-[url('/img/hero-pattern.svg')]" h-6 w-6 justify-self-end content-end relative cursor-pointer '  v-show="memberId.id==1" @click="settingBtn=!settingBtn"> -->
-                <!-- <div class="bg-[url('/../assets/icon/postSetting.svg')] h-6 w-6 justify-self-end content-end relative cursor-pointer"  v-show="memberId.id==1" @click="settingBtn=!settingBtn"> -->
-                <!-- <div class='bg-post-setting-logo h-6 w-6 justify-self-end content-end relative cursor-pointer '  v-show="memberId.id==1" @click="settingBtn=!settingBtn"> -->
                 <div class='bg-svg-gear h-6 w-6 justify-self-end content-end relative cursor-pointer '  v-show="memberId.id==1" @click="settingBtn=!settingBtn">
-                    <!-- <div class="w-24 h-14 bg-white border-solid border-2 border-gray-300 absolute  shadow-lg rounded-lg  top-6 left-[-4rem] right-0 select-none translate-y-0" v-show="settingBtn">      -->
                     <div class="absolute right-0 bg-white border border-gray-300 shadow-lg rounded-lg w-24 h-14     top-6 left-[-4rem] select-none" v-show="settingBtn">
                         <router-link :to="{name:'update', params:{id:data.id}}" class="text-right hover:text-red-400" @click="saveDataToPinia">수정하기</router-link>
                         <div class="h-4 w-4 cursor-none"></div>
@@ -52,14 +43,14 @@ import { ref, defineProps, onUpdated, onMounted, onBeforeMount, reactive, onActi
 import dayjs from 'dayjs'
 import { useRoute, useRouter } from 'vue-router';
 import { useUpdateDataStore } from '../../stores/useUpdateDataStore';
-import { useTestStore } from '../../stores/useTestStore';
+import { usePersistDataStore } from '../../stores/usePersistDataStore';
 import Comment from './Comment.vue'
 
 let route = useRoute();
 let router = useRouter();
 let id = ref(route.params.id);
 
-let piniaDate = ref(useTestStore().fetchedItems);
+let piniaDate = ref(usePersistDataStore().fetchedItems);
 let data = ref("")
 let memberId = ref("");
 let settingBtn = ref(false);
@@ -67,7 +58,7 @@ let settingBtn = ref(false);
 
 function updateContent() {
     id = ref(route.params.id);
-    data.value = useTestStore().findById(id);
+    data.value = usePersistDataStore().findById(id);
     memberId.value = data.value.memberId
 }
 
@@ -97,15 +88,6 @@ function formatDate(dateString) { //날짜 데이터가 timestamp 형태인 것�
     return formattedDate;
 }
 
-// onUpdated(() => {
-//     // data = ref(props.propp)
-//     // console.log("아이디"+id.value)
-//     {
-//         // updateContent();
-//         // getComment();
-//     }
-// })
-
 function saveDataToPinia() {
     useUpdateDataStore().saveUpdateData(data.value)
 }
@@ -113,6 +95,22 @@ function saveDataToPinia() {
 function deleteArticle() {
     var result = window.confirm("정말로 이 글을 삭제하시겠습니까?");
     if (result) {
+        {//db에 articleId와 과련된 모든 댓글 삭제
+            var raw = "";
+
+            var requestOptions = {
+                method: 'DELETE',
+                body: raw,
+                redirect: 'follow'
+            };
+
+            fetch(`http://localhost:8080/comment/deleteAllCommentInArticle?articleId=${id.value}`, requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+
+        }
+
         { // db에서 삭제
             var raw = "";
 
@@ -129,7 +127,7 @@ function deleteArticle() {
             router.push({ name: 'board' })
         }
         { // 피니아에서 삭제
-            useTestStore().deleteDate(parseInt(id.value))
+            usePersistDataStore().deleteDate(parseInt(id.value))
         }
     }
     else
@@ -161,11 +159,12 @@ function deleteArticle() {
 
 .slide-fade-enter-active,
 .slide-fade-leave-active {
-  transition: opacity 0.3s, transform 0.3s;
+    transition: opacity 0.3s, transform 0.3s;
 }
+
 .slide-fade-enter,
 .slide-fade-leave-to {
-  opacity: 0;
-  transform: translateY(-10px);
+    opacity: 0;
+    transform: translateY(-10px);
 }
 </style>

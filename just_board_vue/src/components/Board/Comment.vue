@@ -39,7 +39,7 @@ import { ref, defineProps, onUpdated, onMounted, onBeforeMount, reactive, onActi
 import dayjs from 'dayjs'
 import { useRoute, useRouter } from 'vue-router';
 import { useUpdateDataStore } from '../../stores/useUpdateDataStore';
-import { useTestStore } from '../../stores/useTestStore';
+import { usePersistDataStore } from '../../stores/usePersistDataStore';
 import {useLoginMemberIdStore} from '../../stores/useLoginMemberIdStore'
 
 let id = ref(props.idValue);
@@ -70,12 +70,7 @@ onBeforeUpdate(() => {
 });
 
 onUpdated(()=>{
-//     console.log(commentContent.value)
-//     console.log(Date.now())
-//     const currentDate = new Date();
-//     console.log(currentDate.toISOString())
-    // alert((new Date()).toISOString()+" / "+(new Date()).getTime());
-    
+
 })
 
 
@@ -159,17 +154,16 @@ function refOrderCalc(i){ //대댓글 refOrder 구하기
                 }
 
     if (maxRefOrder !== -1) {
-        // alert(maxRefOrder+1)
-        refOrderUpdate(i,(maxRefOrder+1))
+        refOrderUpdate(commentText.value[i].ref,parseInt(maxRefOrder+1))
         return maxRefOrder + 1; // 같은 step 값을 가진 댓글 중 최댓값 + 1
     } else {
-        refOrderUpdate(i,(commentText.value[i].refOrder+1))
-        // alert(commentText.value[i].refOrder + 1)
+        refOrderUpdate(commentText.value[i].ref,parseInt(commentText.value[i].refOrder+1))
         return commentText.value[i].refOrder + 1; // 같은 step 값을 갖는 댓글이 없을 경우 부모의 refOrder + 1
     }
 }
 
-function refOrderUpdate(i, refOrder) { //
+function refOrderUpdate(ref, refOrder) { //
+    alert(ref+" / "+refOrder)
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -177,7 +171,7 @@ function refOrderUpdate(i, refOrder) { //
         "articleId": {
             "id": id.value
         },
-        "ref": i,
+        "ref": ref,
         "refOrder": refOrder
     });
 
@@ -195,7 +189,6 @@ function refOrderUpdate(i, refOrder) { //
 }
 
 function addReply(i) { // 대댓글
-    // alert(i);
     console.log(commentText.value[i].id)
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");

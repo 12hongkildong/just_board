@@ -45,10 +45,6 @@ function closeModal(){
     emit('closeModal')
 }
 
-// onUpdated(()=>{
-//   console.log(searchKeyword.value);
-// })
-
 function searchList(){
     emit('searching', 0, searchKeyword.value)
     emit('closeModal')

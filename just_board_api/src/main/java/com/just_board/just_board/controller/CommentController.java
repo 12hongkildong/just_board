@@ -3,6 +3,7 @@ package com.just_board.just_board.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,17 +24,17 @@ public class CommentController {
     @Autowired
     private CommentService service;
 
-    @GetMapping("getComment")  //  -> 삭제
-    public List<Comment> getComment(
-            @RequestParam("articleId") Long articleId) {
-        return service.getCommentList(articleId);
-    }
+    // @GetMapping("getComment")  //  -> 삭제
+    // public List<Comment> getComment(
+    //         @RequestParam("articleId") Long articleId) {
+    //     return service.getCommentList(articleId);
+    // }
 
-    @GetMapping("getArticleComment") // -> 삭제
-    public List<Comment> getArticleComment(
-            @RequestParam("articleId") Long articleId) {
-        return service.getArticleComment(articleId);
-    }
+    // @GetMapping("getArticleComment") // -> 삭제
+    // public List<Comment> getArticleComment(
+    //         @RequestParam("articleId") Long articleId) {
+    //     return service.getArticleComment(articleId);
+    // }
 
     @GetMapping("getArticleDivisionComment")
     public List<CommentSummary> getArticleDivisionComment(
@@ -41,27 +42,27 @@ public class CommentController {
         return service.getArticleDivisionComment(articleId);
     }
 
-    @PostMapping("postComment") //  -> 삭제
-    public List<Comment> postComment(
-            @RequestBody Article2 articleId) {
-        return service.getCommentList(articleId);
-    }
+    // @PostMapping("postComment") //  -> 삭제
+    // public List<Comment> postComment(
+    //         @RequestBody Article2 articleId) {
+    //     return service.getCommentList(articleId);
+    // }
 
-    @PostMapping("regComment")
-    public String regComment(
-        @RequestBody CommentSummary comment
-    ){
-        return service.createComment(comment);
-        // return "댓글 등록 성공";
-    }
+    // @PostMapping("regComment") // -> 삭제
+    // public String regComment(
+    //     @RequestBody CommentSummary comment
+    // ){
+    //     return service.createComment(comment);
+    //     // return "댓글 등록 성공";
+    // }
 
-    @PostMapping("regComment2") // 실패
-    public String regComment2(
-            @RequestBody CreateComment comment) {
-        service.createComment2(comment);
-        // service.save(comment);
-        return "댓글 등록 성공";
-    }
+    // @PostMapping("regComment2") // 실패
+    // public String regComment2(
+    //         @RequestBody CreateComment comment) {
+    //     service.createComment2(comment);
+    //     // service.save(comment);
+    //     return "댓글 등록 성공";
+    // }
 
     @PostMapping("regComment3")  // 댓글 작성용 api, 대댓글도 이거 활용하면 될 거 같다.
     public String regComment3(
@@ -91,5 +92,12 @@ public class CommentController {
     ){
         service.updateRefOrder(updateTarget);
         return "업데이트 성공";
+    }
+
+    @DeleteMapping("deleteAllCommentInArticle")
+    public String allCommentDelete(
+       @RequestParam("articleId") Long articleId
+    ){
+       return service.deletebyArticleId(articleId);
     }
 }

@@ -50,4 +50,8 @@ public interface CommentRepository extends JpaRepository<Comment,Long>{
     @Query("UPDATE Comment c SET c.refOrder = c.refOrder + 1 WHERE c.articleId = :articleId AND c.ref = :ref AND c.refOrder >= :refOrder")
     void updateRefOrder(@Param("articleId") Long articleId, @Param("ref") Long ref, @Param("refOrder") Long refOrder);
     // void updateRefOrderByArticleIdAndRefAndRefOrderGreaterThanEqual(Long articleId, Long ref, Long refOrder);
+
+    @Transactional
+    void deleteAllByArticleId(Article2 articleId);
+    // void deleteAllByArticleId(Long articleId);
 }   

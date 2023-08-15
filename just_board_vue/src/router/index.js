@@ -16,11 +16,6 @@ const router = createRouter({
       name: 'login',
       component: Login,
       children:[
-        // {
-        //   path: 'signup',
-        //   name: 'signup',
-        //   component: Signup
-        // },
       ]
     },
     {
@@ -58,12 +53,6 @@ const router = createRouter({
       name: 'NotFound',
       component: Board
     },
-    // {
-    //       path: '/:id', 
-    //       component:Detail,
-    //       name:'detail',
-    //       props: true,
-    // },
   ]
 })
 

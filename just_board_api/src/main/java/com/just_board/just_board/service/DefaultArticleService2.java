@@ -97,7 +97,7 @@ public class DefaultArticleService2 implements ArticleService2 {
         repository.save(updateArticle);
     }
 
-
+    // 글 삭제
     @Override
     public void deleteArticle(Long id) {
         // TODO Auto-generated method stub
