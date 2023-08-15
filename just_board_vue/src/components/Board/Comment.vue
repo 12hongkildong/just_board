@@ -79,7 +79,7 @@ onUpdated(()=>{
 })
 
 
-function getComment() {
+function getComment() {  // 댓글 조회하기
     var requestOptions = {
         method: 'GET',
         redirect: 'follow'
@@ -139,6 +139,9 @@ function addComment() { //댓글
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     commentContent.value = ""; // 댓글 입력칸 초기화
+
+    // router.go();
+    window.location.reload(true);
 }
 
 
@@ -166,7 +169,7 @@ function refOrderCalc(i){ //대댓글 refOrder 구하기
     }
 }
 
-function refOrderUpdate(i, refOrder) { // 이거 동작 안함 수정해야 함
+function refOrderUpdate(i, refOrder) { //
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -224,6 +227,8 @@ function addReply(i) { // 대댓글
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
     commentReplay.value = ""; // 대댓글 입력칸 초기화
+
+    window.location.reload(true);
 }
 
 function formatDate(dateString) { //날짜 데이터가 timestamp 형태인 것을 내가 원하는 형태로 바꾸기 위한 함수
