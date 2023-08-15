@@ -28,8 +28,6 @@
                 </div>
                 <!-- <div class="">아랄랄</div>
                 <div class="bg-test-svg h-6 w-6 justify-self-end content-end relative cursor-pointer"  v-show="memberId.id==1" @click="settingBtn=!settingBtn"> -->
-                
-                
                 <!-- <div class="bg-[url('/img/hero-pattern.svg')]"> -->
                 <!-- <div class='bg-[url('/img/hero-pattern.svg')]" h-6 w-6 justify-self-end content-end relative cursor-pointer '  v-show="memberId.id==1" @click="settingBtn=!settingBtn"> -->
                 <!-- <div class="bg-[url('/../assets/icon/postSetting.svg')] h-6 w-6 justify-self-end content-end relative cursor-pointer"  v-show="memberId.id==1" @click="settingBtn=!settingBtn"> -->

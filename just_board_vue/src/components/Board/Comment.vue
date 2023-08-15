@@ -159,12 +159,12 @@ function refOrderCalc(i){ //대댓글 refOrder 구하기
                 }
 
     if (maxRefOrder !== -1) {
-        alert(maxRefOrder+1)
+        // alert(maxRefOrder+1)
         refOrderUpdate(i,(maxRefOrder+1))
         return maxRefOrder + 1; // 같은 step 값을 가진 댓글 중 최댓값 + 1
     } else {
         refOrderUpdate(i,(commentText.value[i].refOrder+1))
-        alert(commentText.value[i].refOrder + 1)
+        // alert(commentText.value[i].refOrder + 1)
         return commentText.value[i].refOrder + 1; // 같은 step 값을 갖는 댓글이 없을 경우 부모의 refOrder + 1
     }
 }

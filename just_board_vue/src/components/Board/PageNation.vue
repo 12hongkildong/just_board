@@ -25,6 +25,8 @@
                         </svg>
                     </div>
                 </nav>
+                {{lastPage}}
+                {{endPage}}
 </template>
 <script setup>
 import { ref, onMounted, onUpdated, defineEmits, callWithErrorHandling, defineProps, defineExpose } from 'vue'
@@ -73,20 +75,24 @@ function changeToPrevTenPage(){  // 이전 페이지로 넘기기
 function changeToNextTenPage(){ // 다음 페이지로 넘기기
     if((endPage.value+10)>lastPage.value)
         return;
-
+    // alert(endPage.value+" / "+lastPage.value)
     endPage.value+=10; // 페이지네이션의 숫자 +10하기
-
+    // alert(endPage.value+" / "+lastPage.value)
     if(currentPage.value%10==1) // 페이지 넘기면 11, 21, 31... 등 1페이지로 뜨게 하는 식
         currentPage.value+=10
     else if(currentPage.value%10!=1){
         currentPage.value+=(10*Math.ceil(currentPage.value/10))-currentPage.value+1
     }
 
+    // alert(endPage.value+" / "+lastPage.value)
     if((endPage.value+10)>lastPage.value){
-        endPage.value==lastPage.value-10;
+        emit('parentchangePage', endPage.value+1);
+        endPage.value=lastPage.value;
+    //     alert(lastPage.value)
+        // endPage.value==lastPage.value-10;
     }
-
-    emit('parentchangePage', endPage.value+1);
+    else
+        emit('parentchangePage', endPage.value+1);
 }
 
 onMounted(() => {
