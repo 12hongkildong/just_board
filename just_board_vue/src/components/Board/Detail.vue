@@ -35,7 +35,8 @@
                 <!-- <div class="bg-[url('/../assets/icon/postSetting.svg')] h-6 w-6 justify-self-end content-end relative cursor-pointer"  v-show="memberId.id==1" @click="settingBtn=!settingBtn"> -->
                 <!-- <div class='bg-post-setting-logo h-6 w-6 justify-self-end content-end relative cursor-pointer '  v-show="memberId.id==1" @click="settingBtn=!settingBtn"> -->
                 <div class='bg-svg-gear h-6 w-6 justify-self-end content-end relative cursor-pointer '  v-show="memberId.id==1" @click="settingBtn=!settingBtn">
-                    <div class="w-24 h-14 bg-white border-solid border-2 border-[#35469C] absolute  top-6 left-[-4rem] right-0 select-none " v-show="settingBtn">
+                    <!-- <div class="w-24 h-14 bg-white border-solid border-2 border-gray-300 absolute  shadow-lg rounded-lg  top-6 left-[-4rem] right-0 select-none translate-y-0" v-show="settingBtn">      -->
+                    <div class="absolute right-0 bg-white border border-gray-300 shadow-lg rounded-lg w-24 h-14     top-6 left-[-4rem] select-none" v-show="settingBtn">
                         <router-link :to="{name:'update', params:{id:data.id}}" class="text-right hover:text-red-400" @click="saveDataToPinia">수정하기</router-link>
                         <div class="h-4 w-4 cursor-none"></div>
                         <span class="hover:text-red-400" @click="deleteArticle">삭제하기</span>
@@ -158,5 +159,15 @@ function deleteArticle() {
 
 .bg-svg-magnifyingGlass {
     background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='7' stroke='%2333363F' stroke-width='2'/%3E%3Cpath d='M11 8C10.606 8 10.2159 8.0776 9.85195 8.22836C9.48797 8.37913 9.15726 8.6001 8.87868 8.87868C8.6001 9.15726 8.37913 9.48797 8.22836 9.85195C8.0776 10.2159 8 10.606 8 11' stroke='%2333363F' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M20 20L17 17' stroke='%2333363F' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E%0A");
+}
+
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: opacity 0.3s, transform 0.3s;
+}
+.slide-fade-enter,
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 </style>
