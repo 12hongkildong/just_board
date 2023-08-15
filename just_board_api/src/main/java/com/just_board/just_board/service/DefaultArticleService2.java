@@ -58,7 +58,7 @@ public class DefaultArticleService2 implements ArticleService2 {
     // 전체 게시글 페이지 수
     @Override
     public int getTotalPages(String keyword) {
-        Double totalArticles = repository.countBySubjectContainingOrContentContaining(keyword, keyword); // 총 게시글 개수
+        Double totalArticles = repository.countBySubjectContainingOrContentContaining(keyword, keyword); // 제목/ 내용에 따른 총 게시글 개수
         int pageCount = (int) Math.ceil(totalArticles / 5);
         System.out.println(pageCount);
 

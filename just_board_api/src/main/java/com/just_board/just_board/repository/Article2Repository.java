@@ -14,7 +14,7 @@ public interface Article2Repository extends JpaRepository<Article2,Long>{
     
     Page<Article2> findAll(Pageable pageable);
     int countBy();
-    Double countBySubjectContainingOrContentContaining(String keyword1, String keyword2); // 키워드에 따른 페이지 수 출력
+    Double countBySubjectContainingOrContentContaining(String keyword1, String keyword2); // 앞은 제목, 뒤는 내용 키워드에 따른 페이지 수 출력
 
      List<Article2> findBySubjectContainingOrContentContaining(String keywordForSubject, String keywordForContent);
      List<Article2> findBySubjectContainingOrContentContaining(String keyword1, String keyword2, Pageable pageable);

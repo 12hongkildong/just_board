@@ -102,11 +102,11 @@ public class ArticleController {
     ){
         // 총페이지 = 모든 게시글 가지고 온 뒤 나누기 5해서 계산(참고로 무조건 올림처리)
 
-        service.getTotalPages(keyword);
-        System.out.println(service.getTotalPages());
+        // service.getTotalPages(keyword);
+        // System.out.println(service.getTotalPages());
         // page.add(service.getArticleCounts());
         // 10번 넘기기 = 
-
+        System.out.println("전체전체");
         return service.getTotalPages(keyword);
     }
 

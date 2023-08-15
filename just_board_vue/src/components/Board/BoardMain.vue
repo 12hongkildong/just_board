@@ -4,7 +4,6 @@
         <section class="col-start-2">
             <section> <!-- 검색하기 모달 -->
                 <button class="cursor-pointer text-xl grid grid-cols-[1.5rem_1fr] mb-5" @click="openModal">
-                    <!-- <div class="bg-search-logo h-6 w-6" ></div>검색 -->
                     <div class="bg-svg-magnifyingGlass h-6 w-6" ></div>검색
                 </button>
             </section>
@@ -20,7 +19,6 @@
                 <section v-for="(list, i) in data" :key="i" class="grid grid-cols-[38rem_13rem_6.625rem_9rem] text-2xl h-[3.75rem] justify-items-center content-center hover:bg-gray-100 ">
                     <h1 class="hidden">리스트</h1>
                     <router-link :to="{name : 'detail', params: {id: data[i].id}}" class="cursor-pointer hover:text-blue-400" @click="scrollToTop()">{{ data[i].subject }}</router-link>
-                    <!-- <router-link :to="{name : 'detail', params: {id: data[i].id}}" class="cursor-pointer hover:text-blue-400" @click="scrollToTop(i)">{{ data[i].subject }}</router-link> -->
                     <div>{{ data[i].memberId.name }}</div>
                     <div>{{ data[i].like }}</div>
                     <div>{{ formatDate(data[i].date) }}</div>
@@ -29,10 +27,8 @@
 
             <section class="grid justify-items-end font-bold m-4"> <!-- 글쓰기 버튼 -->
                 <router-link to="/write" class="text-2xl grid grid-cols-[1.5rem_1fr]">
-                    <!-- <div class="bg-create-logo h-6 w-6" @throwFunction="catchz()"></div>글쓰기 -->
                     <div class="bg-svg-Pencil h-6 w-6" @throwFunction="catchz()"></div>글쓰기
                 </router-link>
-                <!-- <router-link :to="{name:'/write', params:{defaultMember:currentMemberId}}" class="text-2xl grid grid-cols-[1.5rem_1fr]"><div class="bg-create-logo h-6 w-6" :sendMemberId="currentMemberId"></div>글쓰기</router-link> -->
             </section>
 
 
@@ -53,7 +49,6 @@ import Modal from '../Modal/Modal.vue'
 import { useSearchingKeywardStore } from '../../stores/useSearchingKeywordStore';
 import { useLoginMemberIdStore } from '../../stores/useLoginMemberIdStore';
 import { useTestStore } from '../../stores/useTestStore';
-import SearchIcon from '../../assets/icon/search.svg'
 
 let sendData = ref('');
 
@@ -81,22 +76,6 @@ onMounted(() => { // 최초 조회시 데이터 값 받아오기
     getBoardList(0,currentKeyword.value)
 })
 
-// function getBoardList(num){
-//     page.value=num;
-//     var requestOptions = {
-//         method: 'GET',
-//         redirect: 'follow'
-//     };
-
-//     fetch(`http://localhost:8080/board/PaginatedBoard?page=${page.value}`, requestOptions)
-//         .then(response => response.json())
-//         .then(result => {
-//             data.value=result;
-//             // console.log("페이지"+page.value)
-//         })
-//         .catch(error => console.log('error', error));
-// }
-
 function getBoardList(num, keyword) {
     page.value = num;
     currentKeyword.value=keyword;
@@ -111,7 +90,7 @@ function getBoardList(num, keyword) {
             data.value=result;
             pageReset.value.pageReset();
             useTestStore().saveItems(result)
-            console.log(useTestStore().fetchedItems)
+            console.log(useTestStore().fetchedItems)//키워드
         })
         .catch(error => console.log('error', error));
         //         alert("하잇")
