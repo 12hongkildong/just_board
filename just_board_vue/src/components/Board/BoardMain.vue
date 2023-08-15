@@ -4,7 +4,8 @@
         <section class="col-start-2">
             <section> <!-- 검색하기 모달 -->
                 <button class="cursor-pointer text-xl grid grid-cols-[1.5rem_1fr] mb-5" @click="openModal">
-                    <div class="bg-search-logo h-6 w-6" ></div>검색
+                    <!-- <div class="bg-search-logo h-6 w-6" ></div>검색 -->
+                    <div class="bg-svg-magnifyingGlass h-6 w-6" ></div>검색
                 </button>
             </section>
             <section class="h-[23.125rem]">
@@ -27,7 +28,10 @@
             </section>
 
             <section class="grid justify-items-end font-bold m-4"> <!-- 글쓰기 버튼 -->
-                <router-link to="/write" class="text-2xl grid grid-cols-[1.5rem_1fr]"><div class="bg-create-logo h-6 w-6" @throwFunction="catchz()"></div>글쓰기</router-link>
+                <router-link to="/write" class="text-2xl grid grid-cols-[1.5rem_1fr]">
+                    <!-- <div class="bg-create-logo h-6 w-6" @throwFunction="catchz()"></div>글쓰기 -->
+                    <div class="bg-svg-Pencil h-6 w-6" @throwFunction="catchz()"></div>글쓰기
+                </router-link>
                 <!-- <router-link :to="{name:'/write', params:{defaultMember:currentMemberId}}" class="text-2xl grid grid-cols-[1.5rem_1fr]"><div class="bg-create-logo h-6 w-6" :sendMemberId="currentMemberId"></div>글쓰기</router-link> -->
             </section>
 
@@ -37,7 +41,6 @@
             </section>
         </section>
     </section>
-    
     <Modal v-show="modalSwitch" @closeModal="openModal" @searching="getBoardList"></Modal> <!-- 검색기능 모달 -->
 </template>
 
@@ -50,6 +53,7 @@ import Modal from '../Modal/Modal.vue'
 import { useSearchingKeywardStore } from '../../stores/useSearchingKeywordStore';
 import { useLoginMemberIdStore } from '../../stores/useLoginMemberIdStore';
 import { useTestStore } from '../../stores/useTestStore';
+import SearchIcon from '../../assets/icon/search.svg'
 
 let sendData = ref('');
 
